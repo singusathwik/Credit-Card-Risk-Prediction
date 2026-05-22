@@ -1,0 +1,44 @@
+{
+  "description": "High Risk Credit Card Input Example",
+  "risk_factors": [
+    "Very high credit utilization (bills near credit limit)",
+    "Multiple months of late payments (2-3 months overdue)",
+    "Low payment amounts relative to bills",
+    "Increasing bill amounts over time",
+    "High outstanding debt"
+  ],
+  "input_data": {
+    "LIMIT_BAL": 200000,
+    "SEX": 1,
+    "EDUCATION": 2,
+    "MARRIAGE": 1,
+    "AGE": 28,
+    "PAY_0": 2,
+    "PAY_2": 3,
+    "PAY_3": 2,
+    "PAY_4": 1,
+    "PAY_5": 0,
+    "PAY_6": 0,
+    "BILL_AMT1": 195000,
+    "BILL_AMT2": 190000,
+    "BILL_AMT3": 185000,
+    "BILL_AMT4": 180000,
+    "BILL_AMT5": 175000,
+    "BILL_AMT6": 170000,
+    "PAY_AMT1": 5000,
+    "PAY_AMT2": 3000,
+    "PAY_AMT3": 2000,
+    "PAY_AMT4": 1000,
+    "PAY_AMT5": 5000,
+    "PAY_AMT6": 5000
+  },
+  "explanation": {
+    "credit_limit": "200,000 - Moderate credit limit",
+    "utilization": "Bills are 85-97% of credit limit (very high utilization)",
+    "payment_status": "PAY_0=2 means 2 months overdue for current month, PAY_2=3 means 3 months overdue, showing severe payment delays",
+    "payment_amounts": "Payments (1,000-5,000) are much lower than bills (170,000-195,000), indicating inability to pay down debt",
+    "trend": "Bills are increasing over time (170k -> 195k), showing growing debt",
+    "expected_result": "This input should result in a high default probability (>0.7 or 70%+)"
+  }
+}
+
