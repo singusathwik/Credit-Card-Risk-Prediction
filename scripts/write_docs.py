@@ -154,6 +154,24 @@ write(
 
 An upgrade of [Sathwik's original application](https://github.com/singusathwik/Credit-Card-Risk-Prediction), retaining Flask and React while correcting evaluation and inference methodology.
 
+## Current results and practical interpretation
+
+The application still serves the original **XGBoost** model. The latest trained **LightGBM candidate** adds repayment-behavior features and uses all 24,004 non-test records for development. Both results below refer to the same 5,996 test records.
+
+| Metric | Active XGBoost | Latest LightGBM candidate |
+|---|---:|---:|
+| Accuracy | 79.37% | **79.47%** |
+| Default recall | **59.04%** | 58.51% |
+| Precision | 52.68% | **52.92%** |
+| ROC AUC | 0.7930 | **0.7936** |
+| Average precision | 0.5708 | **0.5796** |
+
+**How good are these results?** They support an educational or portfolio demonstration of reproducible modeling and explanations, but do not establish readiness for real lending or state-of-the-art predictive performance. Predicting “no default” for every test record would achieve **78.05% accuracy while catching no defaults**, so accuracy alone is insufficient. The candidate catches about **59 of every 100 actual defaults**, misses about **41**, and approximately **53% of its flagged clients actually default**.
+
+The candidate's **+0.10 percentage-point accuracy gain** costs **0.53 points of recall**: 13 fewer false alarms, 7 more missed defaults, and 6 additional correct classifications. Its paired 95% accuracy-change interval is **−0.37 to +0.55 percentage points**, which includes zero. It did not meet the predefined +0.5-point adoption margin, so it has **not replaced the active model**.
+
+The candidate and threshold were frozen before this audit; test records were excluded from fitting and selection. However, the benchmark's original result was already known, so this is **not fresh external validation**. [Full candidate report and reproducibility evidence](reports/full-development-004/REPORT.md).
+
 ## Overview and problem statement
 Estimate next-month default probability from historical credit-card records and inspect the evidence. This project demonstrates reproducible comparisons, calibration assessment, threshold trade-offs and SHAP. It is an **educational research prototype**, not a lending decision system. The principal gain is methodological correctness; no controlled legacy accuracy improvement or state-of-the-art claim is made.
 
@@ -169,14 +187,14 @@ UCI workbook -> grouped train/validation/test -> fold-local sklearn pipelines
 ```
 [Architecture and features](docs/ARCHITECTURE.md) · [Baseline audit](docs/BASELINE_AUDIT.md).
 
-## Machine learning methodology
+## Active model methodology
 - 18,000 training / 6,004 validation / 5,996 test rows; seed 42, profile/ID groups.
 - Three-fold group-aware training CV; fitted preprocessing stays in each fold.
 - Validation average precision selects the model; training-CV calibration is selected by validation Brier; validation F1 selects threshold 0.28.
 - One-hot nominal/status codes, train-fitted imputation/scaling and eight historical summaries. Class weighting is compared; no categorical SMOTE.
 - Test scores do not choose the model, calibration or threshold. Structured JSON/CSV provide experiment tracking.
 
-## Model comparison
+## Original model comparison
 {comparison}
 
 Selected **XGBoost depth 4**. Voting offered no validation improvement. Sigmoid/isotonic were compared; original probabilities had the lowest validation Brier. Calibration was evaluated, not assumed to help. [Full experiments](docs/EXPERIMENTS.md).
@@ -184,7 +202,7 @@ Selected **XGBoost depth 4**. Voting offered no validation improvement. Sigmoid/
 ## Explainable AI
 `POST /explain` returns SHAP contributions to the exact served default probability. Positive/negative values increase/decrease the estimate relative to 24 training-background rows. UI shows percentage points, not log odds. Global plots use 30 validation observations. Additivity is checked; explanations remain approximate and non-causal. [Model card](docs/MODEL_CARD.md).
 
-## Evaluation results
+## Active model evaluation results
 {metrics}
 
 Threshold 0.28; confusion matrix `{t['confusion_matrix']}` (truth rows, predicted columns). At 0.50 accuracy is 82.39% with recall 36.25%; the selected threshold is a validation F1 compromise. Historical 81.32% lacks its model artifact and used test-based selection, so it is not directly comparable.
