@@ -1,0 +1,29 @@
+{
+  "algorithm": "hist_7_leaves",
+  "seconds": 3.7626706000000922,
+  "threshold": 0.305,
+  "recall_floor": 0.56,
+  "metrics": {
+    "accuracy": 0.7997222222222222,
+    "precision": 0.5389483933787731,
+    "recall": 0.5640764331210191,
+    "f1": 0.5512261919581726,
+    "macro_f1": 0.7111621359190154,
+    "roc_auc": 0.7856543584754104,
+    "average_precision": 0.5455115930646678,
+    "balanced_accuracy": 0.7147558009299589,
+    "brier": 0.13305338622920573,
+    "false_positive_rate": 0.13456483126110125,
+    "false_negative_rate": 0.4359235668789809,
+    "confusion_matrix": [
+      [
+        12181,
+        1894
+      ],
+      [
+        1711,
+        2214
+      ]
+    ]
+  }
+}

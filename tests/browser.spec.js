@@ -9,6 +9,11 @@ test("real prediction, exact SHAP, evaluation, and responsive layout", async ({
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(baseUrl);
   await expect(
+    page.getByText("Held-out accuracy", { exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".stats")).toContainText("79.37%");
+  await expect(page.locator(".stats")).toContainText("59.04%");
+  await expect(
     page.getByRole("heading", { name: "Explore a prediction" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Load demo values" }).click();

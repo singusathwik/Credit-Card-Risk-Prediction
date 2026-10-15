@@ -17,6 +17,7 @@ async function post(path, payload) {
 export default function App() {
   const [view, setView] = useState("predict"),
     [info, setInfo] = useState(null),
+    [evaluation, setEvaluation] = useState(null),
     [prediction, setPrediction] = useState(null),
     [input, setInput] = useState(null),
     [loading, setLoading] = useState(false),
@@ -25,6 +26,11 @@ export default function App() {
     [explaining, setExplaining] = useState(false),
     [explainError, setExplainError] = useState("");
   useEffect(() => {
+    fetch("/api/evaluation")
+      .then(async (r) => {
+        if (r.ok) setEvaluation(await r.json());
+      })
+      .catch(() => {});
     fetch("/api/model-info")
       .then(async (r) => {
         const d = await r.json();
@@ -83,7 +89,7 @@ export default function App() {
             <span>SHAP explanations</span>
           </div>
         </section>
-        {info && <StatsPanel info={info} />}
+        {info && <StatsPanel info={info} evaluation={evaluation} />}
         {view === "predict" ? (
           <div className="workspace">
             <RiskForm

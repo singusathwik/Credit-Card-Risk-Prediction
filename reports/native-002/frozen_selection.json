@@ -1,0 +1,29 @@
+{
+  "algorithm": "incumbent_xgb",
+  "seconds": 1.059273700000631,
+  "threshold": 0.265,
+  "recall_floor": 0.6,
+  "metrics": {
+    "accuracy": 0.7829444444444444,
+    "precision": 0.5019148936170212,
+    "recall": 0.6010191082802547,
+    "f1": 0.5470144927536232,
+    "macro_f1": 0.7021465157832043,
+    "roc_auc": 0.7861461098980665,
+    "average_precision": 0.5511686746047664,
+    "balanced_accuracy": 0.7173479200371078,
+    "brier": 0.13282513929951914,
+    "false_positive_rate": 0.16632326820603907,
+    "false_negative_rate": 0.3989808917197452,
+    "confusion_matrix": [
+      [
+        11734,
+        2341
+      ],
+      [
+        1566,
+        2359
+      ]
+    ]
+  }
+}

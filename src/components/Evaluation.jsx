@@ -32,6 +32,19 @@ export default function Evaluation() {
         <span className="eyebrow">FROZEN HELD-OUT EVALUATION</span>
         <h2>Evidence behind the estimate</h2>
         <p>
+          On {data.metadata.split_sizes.test.toLocaleString()} held-out records,
+          the model classified {(data.test.accuracy * 100).toFixed(2)}%
+          correctly. It caught {Math.round(data.test.recall * 100)} out of every
+          100 actual defaults and missed about{" "}
+          {Math.round((1 - data.test.recall) * 100)}. Of the clients it flagged,{" "}
+          {(data.test.precision * 100).toFixed(1)}% actually defaulted.
+        </p>
+        <p className="hint">
+          Accuracy is not the chance that an individual prediction is correct.
+          Catching defaults matters because most clients in this dataset did not
+          default.
+        </p>
+        <p>
           Training / validation / test:{" "}
           {["train", "validation", "test"]
             .map((key) => data.metadata.split_sizes[key])
@@ -42,6 +55,7 @@ export default function Evaluation() {
         </p>
         <div className="metric-grid">
           {[
+            "accuracy",
             "average_precision",
             "roc_auc",
             "recall",

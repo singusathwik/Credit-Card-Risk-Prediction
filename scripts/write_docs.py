@@ -191,6 +191,15 @@ Threshold 0.28; confusion matrix `{t['confusion_matrix']}` (truth rows, predicte
 
 [Evaluation](reports/run-001/EVALUATION.md) · [JSON results](reports/run-001/evaluation.json) · [Technical report](docs/TECHNICAL_REPORT.md).
 
+## Further accuracy–recall research
+**Outcome:** neither follow-up met the replacement criteria. The original application model remains active; the additional experiments do not establish an accuracy improvement. Native categorical boosting with a stricter recall target achieved 77.91% accuracy / 60.43% recall in nested CV versus the incumbent's 78.74% / 58.57% on the same folds.
+
+The main dashboard now displays held-out accuracy and default recall directly. The evaluation page explains how many defaults are caught or missed, alongside uncertainty intervals and the full technical metrics.
+
+The [native CatBoost follow-up](reports/native-002/REPORT.md) compares three categorical boosting configurations against the incumbent with a stricter training recall target. It is exploratory research, not a replacement test score. Run it with `python -m credit_risk.improve --profile native --selection-recall-floor 0.60 --output artifacts/native-new --report reports/native-new`.
+
+A bounded nested, group-aware CV follow-up evaluates accuracy subject to explicit default-recall constraints. The original test partition is excluded from that search. See the [follow-up report](reports/accuracy-recall-001/REPORT.md) for the comparison, fixed protocol and replacement decision. These exploratory results do not replace the original held-out metrics above.
+
 ## Application screenshots
 ![Prediction and local SHAP](docs/screenshots/prediction-desktop.png)
 ![Evaluation dashboard](docs/screenshots/evaluation-desktop.png)

@@ -1,5 +1,13 @@
 # Verification record — 15 October 2026
 
+## Accuracy and recall follow-up
+- Python suite: **45 passed**, including grouped nested-CV isolation, recall constraints, rejection of excessive recall loss, native categorical input parity, saved-model round trips and CatBoost dependency mismatch rejection.
+- Production frontend build and **2 browser tests passed** with the real served baseline model. Browser assertions now verify the prominent **79.37% accuracy / 59.04% default recall** summary. Desktop and mobile screenshots were refreshed.
+- `pip check`: no broken requirements. `npm audit --omit=dev`: zero reported vulnerabilities.
+- CatBoost 1.2.8 is pinned alongside scikit-learn 1.7.2. This combination emits a scikit-learn estimator-tags deprecation warning; a future scikit-learn upgrade requires compatibility validation.
+- The original model and frozen test report retain their recorded SHA-256 hashes. New candidates are assessed on original-training grouped nested CV and a disclosed reused-validation audit; the original test set is not scored again.
+- Reports: [first follow-up](../reports/accuracy-recall-001/REPORT.md) and [native categorical follow-up](../reports/native-002/REPORT.md). The command `python -m scripts.verify_research --artifact artifacts/native-002 --report reports/native-002` checks candidate API/SHAP parity and split isolation without scoring test rows.
+
 ## Executed checks
 - Original workbook inspection: 30,000 rows, 6,636 defaults, no missing cells, 56 repeated predictor profiles, no repeated IDs.
 - Full training: ten configurations, three group-aware training folds, validation selection, three calibration methods and 91 validation thresholds.

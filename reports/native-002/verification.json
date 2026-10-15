@@ -1,0 +1,12 @@
+{
+  "model_version": "accuracy-recall-e777ac5d23-incumbent_xgb",
+  "example_probability": 0.06138471141457558,
+  "api_probability_parity": true,
+  "shap_reconstruction": true,
+  "training_partition_only": true,
+  "outer_groups_disjoint": true,
+  "original_files_unchanged": {
+    "artifacts/run-001/model.joblib": "66ad159f6d0d2b4c1b4ba955e153b66cedf9ffeb14f866cbb55fa209520b670e",
+    "reports/run-001/evaluation.json": "eb9da0d41efe63bf05f7c11b36a75369fb4c1c2652db97a26cad501eaab1179e"
+  }
+}

@@ -39,3 +39,7 @@ waitress==3.0.2
 Werkzeug==3.1.9
 xgboost==3.1.2
 xlrd==2.0.2
+catboost==1.2.8
+graphviz==0.21
+narwhals==2.27.1
+plotly==7.1.0
