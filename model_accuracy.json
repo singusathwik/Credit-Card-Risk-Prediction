@@ -1,8 +1,7 @@
 {
-  "accuracy": 0.8131666666666667,
-  "accuracy_percent": 81.31666666666668,
-  "train_accuracy": 0.986169814349152,
-  "train_accuracy_percent": 98.6169814349152,
-  "train_accuracy_original": 0.9785833333333334,
-  "train_accuracy_original_percent": 97.85833333333333
+  "accuracy": 0.7936957971981321,
+  "accuracy_percent": 79.36957971981322,
+  "model_version": "uci-f2649c89-seed42-xgboost_depth4-uncalibrated",
+  "threshold": 0.27999999999999997,
+  "source": "reports/run-001/evaluation.json"
 }

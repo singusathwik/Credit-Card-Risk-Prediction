@@ -1,0 +1,12 @@
+.git
+.venv*
+node_modules
+dist
+legacy
+*.xls
+*.ipynb
+artifacts
+__pycache__
+.pytest_cache
+.env
+reports/npm-*

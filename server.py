@@ -1,158 +1,199 @@
+"""Flask API and built React application. Never serve the repository root."""
+
 import json
+import logging
+import os
 from pathlib import Path
+from threading import Lock
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
+from credit_risk.artifacts import load_bundle
+from credit_risk.features import validate_payload, RAW
+from credit_risk.explain import local_explanation
 
-import joblib
-import numpy as np
-from flask import Flask, send_from_directory, request, jsonify
-
-# Try to import CORS, make it optional
-try:
-    from flask_cors import CORS
-    CORS_AVAILABLE = True
-except ImportError:
-    CORS_AVAILABLE = False
-    print("Note: flask-cors not installed. Install with: pip install flask-cors")
-
-MODEL_PATH = Path("model.pkl")
-FEATURES_PATH = Path("feature_columns.json")
-ACCURACY_PATH = Path("model_accuracy.json")
-
-app = Flask(__name__, static_folder=".", static_url_path="")
-
-# Enable CORS if available
-if CORS_AVAILABLE:
-    CORS(app)
-else:
-    # Manual CORS headers as fallback
-    @app.after_request
-    def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-        return response
+ROOT = Path(__file__).resolve().parent
 
 
-def load_model_and_features():
-  if not MODEL_PATH.exists() or not FEATURES_PATH.exists():
-    return None, None, None
+def create_app(bundle=None, artifact_path=None, report_path=None):
+    app = Flask(__name__, static_folder=None)
+    app.config["MAX_CONTENT_LENGTH"] = 16384
+    report_dir = Path(
+        report_path or os.environ.get("REPORT_DIR", ROOT / "reports/run-001")
+    )
+    if bundle is None:
+        try:
+            bundle = load_bundle(
+                artifact_path
+                or os.environ.get("MODEL_PATH", ROOT / "artifacts/run-001/model.joblib")
+            )
+        except Exception as exc:
+            app.logger.warning(
+                "Model unavailable (%s); train a compatible local artifact.",
+                type(exc).__name__,
+            )
+    app.config["MODEL_BUNDLE"] = bundle
+    origins = [
+        s.strip() for s in os.environ.get("CORS_ORIGINS", "").split(",") if s.strip()
+    ]
+    if origins:
+        CORS(
+            app,
+            origins=origins,
+            methods=["GET", "POST"],
+            allow_headers=["Content-Type"],
+        )
+    explanation_lock = Lock()
 
-  model_data = joblib.load(MODEL_PATH)
-  
-  # Handle both old format (just model) and new format (dict with model and preprocessing)
-  if isinstance(model_data, dict):
-    model = model_data.get('model')
-    selector = model_data.get('selector')
-    model_type = model_data.get('model_type', 'unknown')
-  else:
-    model = model_data
-    selector = None
-    model_type = 'legacy'
-  
-  with FEATURES_PATH.open("r", encoding="utf-8") as f:
-    feature_columns = json.load(f)
-  
-  return model, feature_columns, selector
+    def ready():
+        return app.config["MODEL_BUNDLE"]
+
+    @app.errorhandler(HTTPException)
+    def http_error(error):
+        return jsonify(error=error.description), error.code
+
+    @app.errorhandler(Exception)
+    def internal_error(error):
+        app.logger.error("Request failed (%s)", type(error).__name__)
+        return jsonify(error="Internal service error."), 500
+
+    @app.get("/health")
+    @app.get("/api/health")
+    def health():
+        return jsonify(
+            status="ready" if ready() else "unavailable",
+            model_loaded=ready() is not None,
+        ), (200 if ready() else 503)
+
+    @app.get("/model-info")
+    @app.get("/api/model-info")
+    def model_info():
+        if not ready():
+            return jsonify(error="Model unavailable. Train a compatible artifact."), 503
+        return jsonify(
+            **ready()["metadata"],
+            input_fields=RAW,
+            notice="Educational prototype; probability estimates are not guarantees or lending recommendations."
+        )
+
+    def report():
+        result = json.loads((report_dir / "evaluation.json").read_text())
+        if (
+            not ready()
+            or result["metadata"]["model_version"]
+            != ready()["metadata"]["model_version"]
+        ):
+            raise ValueError("Report version mismatch")
+        return result
+
+    @app.get("/api/evaluation")
+    def evaluation():
+        try:
+            result = report()
+            result["models"] = json.loads((report_dir / "selection.json").read_text())[
+                "models"
+            ]
+            return jsonify(result)
+        except (OSError, ValueError):
+            return jsonify(error="Matching evaluation report unavailable."), 503
+
+    @app.get("/accuracy")
+    @app.get("/api/accuracy")
+    def accuracy():
+        try:
+            a = report()["test"]["accuracy"]
+            return jsonify(accuracy=a, accuracy_percent=a * 100)
+        except (OSError, ValueError):
+            return jsonify(error="Matching evaluation report unavailable."), 503
+
+    def prediction(explain=False):
+        if not ready():
+            return jsonify(error="Model unavailable. Run training first."), 503
+        if not request.is_json:
+            return jsonify(error="Content-Type must be application/json."), 415
+        payload = request.get_json(silent=True)
+        try:
+            X = validate_payload(payload)
+        except ValueError as exc:
+            return jsonify(error=str(exc)), 400
+        b = ready()
+        meta = b["metadata"]
+        probability = float(b["model"].predict_proba(X)[0, 1])
+        lo, hi = meta["risk_boundaries"]
+        response = dict(
+            default_probability=probability,
+            will_default=probability >= meta["decision_threshold"],
+            predicted_label=int(probability >= meta["decision_threshold"]),
+            decision_threshold=meta["decision_threshold"],
+            risk_category=(
+                "Low"
+                if probability < lo
+                else "Moderate" if probability < hi else "High"
+            ),
+            risk_boundaries=[lo, hi],
+            risk_boundaries_illustrative=True,
+            model_version=meta["model_version"],
+            notice="Educational estimate; not a guarantee, causal conclusion or lending decision.",
+        )
+        if explain:
+            if not explanation_lock.acquire(blocking=False):
+                return jsonify(error="Explanation service busy; retry shortly."), 429
+            try:
+                response["explanation"] = local_explanation(b, X)
+            finally:
+                explanation_lock.release()
+        return jsonify(response)
+
+    app.add_url_rule("/predict", "predict", prediction, methods=["POST"])
+    app.add_url_rule("/api/predict", "api_predict", prediction, methods=["POST"])
+    app.add_url_rule("/explain", "explain", lambda: prediction(True), methods=["POST"])
+    app.add_url_rule(
+        "/api/explain", "api_explain", lambda: prediction(True), methods=["POST"]
+    )
+
+    @app.get("/api/plots/<name>")
+    def plot(name):
+        allowed = {
+            "confusion_matrix.png",
+            "roc.png",
+            "precision_recall.png",
+            "calibration.png",
+            "comparison.png",
+            "thresholds.png",
+            "distributions.png",
+            "shap_beeswarm.png",
+            "shap_importance.png",
+            "shap_relationship.png",
+        }
+        if name not in allowed:
+            return jsonify(error="Unknown plot."), 404
+        try:
+            report()
+        except (OSError, ValueError):
+            return jsonify(error="Matching evaluation unavailable."), 503
+        return send_from_directory(report_dir, name)
+
+    @app.get("/")
+    def index():
+        if not (ROOT / "dist/index.html").exists():
+            return jsonify(error="Build frontend with npm run build."), 503
+        return send_from_directory(ROOT / "dist", "index.html")
+
+    @app.get("/assets/<path:name>")
+    def assets(name):
+        return send_from_directory(ROOT / "dist/assets", name)
+
+    return app
 
 
-model, feature_columns, selector = load_model_and_features()
-
-# Load and display model accuracy if available
-if model is not None:
-  try:
-    with ACCURACY_PATH.open("r", encoding="utf-8") as f:
-      accuracy_data = json.load(f)
-      accuracy = accuracy_data.get("accuracy", 0)
-      print("="*50)
-      print(f"MODEL ACCURACY: {accuracy:.4f} ({accuracy*100:.2f}%)")
-      print("="*50)
-  except FileNotFoundError:
-    print("Note: Model accuracy file not found.")
-
-
-@app.route("/")
-def index():
-  # Serve the main frontend page
-  return send_from_directory(".", "index.html")
-
-
-@app.route("/accuracy", methods=["GET"])
-@app.route("/api/accuracy", methods=["GET"])  # Also support /api/ prefix
-def get_accuracy():
-  """
-  Get the model's accuracy score.
-  """
-  try:
-    if ACCURACY_PATH.exists():
-      with ACCURACY_PATH.open("r", encoding="utf-8") as f:
-        accuracy_data = json.load(f)
-      return jsonify(accuracy_data)
-    else:
-      return jsonify({"error": "Accuracy file not found. Run train_model.py first."}), 404
-  except Exception as e:
-    return jsonify({"error": str(e)}), 500
-
-
-@app.route("/predict", methods=["POST"])
-@app.route("/api/predict", methods=["POST"])  # Also support /api/ prefix
-def predict():
-  """
-  Real prediction endpoint using trained model (if available).
-  """
-  global model, feature_columns, selector
-
-  if model is None or feature_columns is None:
-    return jsonify({"error": "Model not trained yet. Run train_model.py first."}), 500
-
-  data = request.get_json(force=True) or {}
-
-  # Build feature vector in the exact column order used during training
-  features = []
-  for col in feature_columns:
-    val = data.get(col, 0)
-    try:
-      val = float(val)
-    except (TypeError, ValueError):
-      val = 0.0
-    features.append(val)
-
-  X = np.array(features, dtype=np.float32).reshape(1, -1)
-  
-  # Apply feature selection if available
-  if selector is not None:
-    X = selector.transform(X)
-
-  # Predict probability of default (class 1)
-  # Handle both regular models and pipelines
-  if hasattr(model, 'predict_proba'):
-    probs = model.predict_proba(X)[0]
-  else:
-    # Fallback for models without predict_proba
-    pred = model.predict(X)[0]
-    probs = [1 - pred, pred]  # Approximate probabilities
-    
-  prob_default = float(probs[1])
-  will_default = prob_default >= 0.5
-
-  # Include accuracy in response if available
-  response = {
-      "default_probability": prob_default,
-      "will_default": will_default,
-    }
-  
-  # Try to include accuracy
-  try:
-    if ACCURACY_PATH.exists():
-      with ACCURACY_PATH.open("r", encoding="utf-8") as f:
-        accuracy_data = json.load(f)
-        response["model_accuracy"] = accuracy_data.get("accuracy", None)
-  except:
-    pass  # Don't fail if accuracy can't be loaded
-  
-  return jsonify(response)
-
-
+app = create_app()
 if __name__ == "__main__":
-  app.run(host="127.0.0.1", port=5000, debug=True)
+    logging.basicConfig(level=logging.INFO)
+    from waitress import serve
 
-
-
+    serve(
+        app,
+        host=os.environ.get("HOST", "127.0.0.1"),
+        port=int(os.environ.get("PORT", "5000")),
+        threads=4,
+    )

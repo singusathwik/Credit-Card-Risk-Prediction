@@ -1,0 +1,9 @@
+{
+  "python": "3.12.14",
+  "training_reproduced": true,
+  "same_selected_model": true,
+  "split_indices_equal": true,
+  "validation_rows_compared": 6004,
+  "maximum_validation_probability_difference": 0.0,
+  "test_reopened": false
+}

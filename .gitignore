@@ -37,3 +37,13 @@ npm-debug.log*
 # feature_columns.json
 # model_accuracy.json
 
+
+artifacts/
+.venv*/
+.pytest_cache/
+*.joblib
+*.xls
+*.xlsx
+reports/npm-*.json
+playwright-report/
+test-results/

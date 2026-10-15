@@ -1,586 +1,129 @@
-## Credit Card Score Risk Insights
+# Explainable AI-Based Credit Default Risk Prediction
 
-An end‑to‑end machine learning project that predicts **credit card default risk for the next month** and exposes it through a **professional web interface**.
+An upgrade of [Sathwik's original application](https://github.com/singusathwik/Credit-Card-Risk-Prediction), retaining Flask and React while correcting evaluation and inference methodology.
 
-The system:
-- Trains advanced ML models on the famous **“Default of Credit Card Clients”** dataset.
-- Engineers 25+ financial and behavioral features.
-- Selects and saves the **best model** (ensemble‑based) with about **81% test accuracy**.
-- Serves real‑time risk scores through a **Flask API**.
-- Provides a modern, single‑page **Tailwind CSS** UI for business users.
+## Overview and problem statement
+Estimate next-month default probability from historical credit-card records and inspect the evidence. This project demonstrates reproducible comparisons, calibration assessment, threshold trade-offs and SHAP. It is an **educational research prototype**, not a lending decision system. The principal gain is methodological correctness; no controlled legacy accuracy improvement or state-of-the-art claim is made.
 
----
+## Dataset and target
+30,000 Taiwan customers, 23 predictors, 6,636 defaults (22.12%). Target: `default payment next month` (1=default). Histories cover April–September 2005; ID is excluded. The 56 repeated predictor profiles stay grouped across partitions. [Dataset card and acquisition](docs/DATASET_CARD.md) · [UCI source](https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients).
 
-## 1. Project Overview
-
-- **Goal**: Estimate the probability that a credit card customer will **default next month**.
-- **Target variable**: `IsDefaulter` (1 = will default, 0 = will not default).
-- **Main outputs**:
-  - Default probability (0–1 and %)
-  - Risk level (Low / Medium / High)
-  - Model accuracy summary (train & test)
-
-### High‑Level Architecture
-
-- **Training script**: `train_model.py`
-  - Loads and cleans the raw Excel dataset.
-  - Builds a rich feature matrix with engineered features.
-  - Trains multiple models and advanced ensembles.
-  - Selects the best model and saves:
-    - `model.pkl` (best model + preprocessing)
-    - `feature_columns.json` (feature order)
-    - `model_accuracy.json` (metrics).
-
-- **Backend API**: `server.py`
-  - Flask app that loads the saved model artifacts.
-  - Endpoints:
-    - `GET /` – serves the frontend (`index.html`).
-    - `GET /accuracy` and `GET /api/accuracy` – returns accuracy metrics.
-    - `POST /predict` and `POST /api/predict` – returns risk predictions.
-
-- **Frontend UI**: `index.html`
-  - Tailwind‑styled single page.
-  - Uses vanilla JavaScript to:
-    - Call the Flask API.
-    - Display model accuracy, probability, and risk levels.
-
-- **Testing utility**: `test_model.py`
-  - Simple CLI script to quickly verify the saved model and accuracy.
-
----
-
-## 2. How the Model Works
-
-### 2.1 Dataset
-
-File: `default of credit card clients.xls`
-
-Key raw columns used:
-- **Demographics**: `LIMIT_BAL`, `SEX`, `EDUCATION`, `MARRIAGE`, `AGE`
-- **Repayment status**: `PAY_0, PAY_2, PAY_3, PAY_4, PAY_5, PAY_6`
-- **Bill amounts**: `BILL_AMT1` … `BILL_AMT6`
-- **Payment amounts**: `PAY_AMT1` … `PAY_AMT6`
-
-The column `default payment next month` is renamed to `IsDefaulter`.
-
-### 2.2 Feature Engineering (in `build_dataset`)
-
-Starting from the raw features, many new features are created, including:
-
-- **Bill statistics**
-  - `AVG_BILL_AMT`, `MAX_BILL_AMT`, `MIN_BILL_AMT`, `BILL_VOLATILITY`
-- **Payment statistics**
-  - `AVG_PAY_AMT`, `TOTAL_PAY_AMT`, `PAY_CONSISTENCY`
-- **Ratios & utilization**
-  - `PAY_BILL_RATIO` – payment vs bill
-  - `UTILIZATION_RATIO` – average bill vs credit limit
-  - `LIMIT_UTILIZATION` – max bill vs limit
-  - `PAY_EFFICIENCY` – payment effectiveness vs bills
-  - `PAY_COVERAGE_AVG` – average coverage across months
-- **Delays & behavior**
-  - `AVG_PAY_DELAY`, `MAX_PAY_DELAY`, `MIN_PAY_DELAY`
-  - `DELAY_COUNT`, `SEVERE_DELAY_COUNT`
-  - `PAY_RELIABILITY` – inverse of delay severity
-  - `PAY_PATTERN_CONSISTENCY` – stability of payments
-- **Trends & momentum**
-  - `BILL_TREND`, `PAY_TREND`
-  - `PAY_MOMENTUM`, `BILL_MOMENTUM`
-  - `DEBT_GROWTH_RATE`
-  - `UTIL_TREND_AVG`, `UTIL_TREND_STD`
-- **Groups & interactions**
-  - `AGE_GROUP`, `LIMIT_GROUP`
-  - `OUTSTANDING_BAL1`, `OUTSTANDING_BAL_AVG`
-  - `LIMIT_AGE_INTERACTION`
-  - `DELAY_UTIL_INTERACTION`
-  - `HIGH_RISK_INDICATOR` (combined flag from high utilization, delays, low efficiency)
-
-All NaN / infinite values are cleaned using:
-- `fillna(0)`
-- replacing `np.inf` / `-np.inf` with 0
-- `np.nan_to_num` to ensure the final feature matrix `X` is safe.
-
-### 2.3 Training Pipeline (in `train_and_save`)
-
-1. **Train/Test Split**
-   - `train_test_split` with:
-     - `test_size=0.2` (80% train, 20% test)
-     - `stratify=y` (preserve class balance)
-     - `random_state=42`
-
-2. **Feature Selection**
-   - `SelectKBest(f_classif, k='all')` currently used mainly as a scoring step.
-   - Returns a consistent feature ordering and can be tuned later.
-
-3. **Class Imbalance Handling**
-   - If available: `SMOTE` (`imblearn.over_sampling.SMOTE`)
-     - Oversamples minority class on the training set.
-     - Helps the model learn defaulters better.
-
-4. **Scaling**
-   - `StandardScaler` on selected features for models that need it (especially boosting models).
-
-5. **Models Trained**
-
-   The script trains multiple strong models:
-
-   - **Random Forest (RF)** – highly optimized:
-     - `n_estimators=800`, `max_depth=35`
-     - `min_samples_split=3`, `min_samples_leaf=1`
-     - `max_features='sqrt'`
-     - `class_weight='balanced_subsample'`
-
-   - **Gradient Boosting (GB)** – with scaling in a `Pipeline`:
-     - `n_estimators=500`, `learning_rate=0.05`
-     - `max_depth=9`
-     - `subsample=0.85`, `max_features='sqrt'`
-
-   - **XGBoost (optional)** – if `xgboost` is installed:
-     - `n_estimators=600`, `learning_rate=0.05`
-     - `max_depth=8`, `min_child_weight=3`
-     - `subsample=0.85`, `colsample_bytree=0.85`
-
-   - **Second Random Forest (RF2)** – alternative hyperparameters for diversity.
-
-   - **Stacking Ensemble**:
-     - Base models: RF, GB (with its own scaler pipeline), RF2, and optionally XGBoost.
-     - Final estimator: another GradientBoosting classifier.
-
-   - **Voting Ensemble**:
-     - Soft voting over RF, RF2, and optionally XGBoost.
-
-6. **Model Selection**
-
-   - Each model’s test accuracy is calculated on `X_test_selected`.
-   - All accuracies are stored in a dictionary.
-   - **Best model is chosen by highest test accuracy**.
-   - Typical results on this dataset (after feature engineering & tuning):
-     - RF / GB / XGB / Ensembles around **0.81 test accuracy (~81%)**.
-
-7. **Metrics Saved**
-
-   After selecting the best model:
-   - Training accuracy on **SMOTE‑resampled** data.
-   - Training accuracy on **original** training data.
-   - Test accuracy on the held‑out test set.
-   - Full classification report is printed.
-
-   These are saved in `model_accuracy.json`:
-   ```json
-   {
-     "accuracy": <test_accuracy>,
-     "accuracy_percent": <test_accuracy * 100>,
-     "train_accuracy": <train_acc_on_smote>,
-     "train_accuracy_percent": ...,
-     "train_accuracy_original": <train_acc_on_original>,
-     "train_accuracy_original_percent": ...
-   }
-   ```
-
-8. **Artifacts Saved**
-   - `model.pkl` – best model plus selector (and scaler if needed).
-   - `feature_columns.json` – base feature names used for API input.
-   - `model_accuracy.json` – metrics for frontend and logging.
-
----
-
-## 3. Backend API (`server.py`)
-
-### 3.1 Libraries Used
-
-- **Flask** – lightweight web framework.
-- **Flask‑CORS** *(optional)* – CORS support (the code also has a manual fallback).
-- **joblib** – load the trained model.
-- **NumPy** – numeric arrays.
-
-### 3.2 Model Loading
-
-On startup:
-- Loads `model.pkl` (either a bare model or a dict with `model`, `selector`, `model_type`).
-- Loads `feature_columns.json`.
-- Optionally logs the accuracy from `model_accuracy.json`.
-
-### 3.3 Endpoints
-
-- **`GET /`**
-  - Serves `index.html`, the main UI.
-
-- **`GET /accuracy` and `GET /api/accuracy`**
-  - Reads `model_accuracy.json`.
-  - Returns metrics as JSON.
-
-- **`POST /predict` and `POST /api/predict`**
-  - Expects JSON with all base input fields:
-    - `LIMIT_BAL`, `SEX`, `EDUCATION`, `MARRIAGE`, `AGE`,
-    - `PAY_0` ... `PAY_6` (subset),
-    - `BILL_AMT1` ... `BILL_AMT6`,
-    - `PAY_AMT1` ... `PAY_AMT6`.
-  - Builds an input row in the exact column order from `feature_columns.json`.
-  - Applies the stored `selector` to match training features.
-  - Calls `model.predict_proba(...)` if available.
-  - Returns:
-    ```json
-    {
-      "default_probability": 0.23,
-      "will_default": false,
-      "model_accuracy": 0.81
-    }
-    ```
-
-### 3.4 CORS Handling
-
-- Tries to use `Flask-CORS` if installed: `pip install flask-cors`.
-- If not installed, a manual `@app.after_request` hook adds:
-  - `Access-Control-Allow-Origin: *`
-  - so that UIs served from other origins could still call the API.
-
----
-
-## 4. Frontend (`index.html`)
-
-The frontend is a **single HTML file** with:
-
-- **Tailwind CSS via CDN** for styling.
-- **Lucide icons via CDN** for professional icons.
-- **Vanilla JavaScript** for:
-  - Loading model accuracy on page load.
-  - Submitting the form to `/api/predict`.
-  - Updating the results view.
-
-### Key UI Features
-
-- Hero section with project name: **“Credit Card Score Risk Insights”**.
-- Professional layout with:
-  - **Customer Profile** form:
-    - Basic info (limit, gender, education, marriage, age).
-    - Repayment status for last 6 months.
-    - 6 months of bill amounts and payment amounts.
-  - **Risk Assessment card**:
-    - Risk level badge (Low / Medium / High).
-    - Progress bar showing default probability.
-    - Text interpretation of risk.
-    - Model accuracy display (from `model_accuracy.json`).
-  - **Info cards** explaining models, real‑time analysis, and risk mitigation.
-
-### Frontend Logic
-
-- On load:
-  - `loadAccuracy()` calls `GET /api/accuracy`.
-  - Displays accuracy % in the stats panel and in the guidelines.
-
-- On form submit:
-  - Gathers all form fields into a JSON payload.
-  - Sends `POST http://127.0.0.1:5000/api/predict`.
-  - Shows a loading spinner on the button.
-  - On success:
-    - Updates risk level, color scheme, and bar width.
-    - Updates default probability text.
-    - Shows interpretation and accuracy.
-  - On error:
-    - Displays an error message banner.
-
----
-
-## 5. Training & Testing Scripts
-
-### 5.1 Training – `train_model.py`
-
-Run:
-```bash
-python train_model.py
+## Architecture
+```text
+UCI workbook -> grouped train/validation/test -> fold-local sklearn pipelines
+ -> validation selection + calibration + threshold -> full saved pipeline
+ -> Flask predict / explain APIs -> React dashboard
+ -> frozen test evaluation -> JSON / CSV / charts / model card
 ```
+[Architecture and features](docs/ARCHITECTURE.md) · [Baseline audit](docs/BASELINE_AUDIT.md).
 
-This will:
-- Load Excel dataset.
-- Engineer advanced features.
-- Split into train/test.
-- Optionally apply SMOTE (if `imbalanced-learn` is installed).
-- Train multiple models:
-  - 2x Random Forest, Gradient Boosting, optional XGBoost, Stacking, Voting.
-- Compare and print accuracies.
-- Select and save the best model.
-- Save feature column list and accuracy metrics.
+## Machine learning methodology
+- 18,000 training / 6,004 validation / 5,996 test rows; seed 42, profile/ID groups.
+- Three-fold group-aware training CV; fitted preprocessing stays in each fold.
+- Validation average precision selects the model; training-CV calibration is selected by validation Brier; validation F1 selects threshold 0.28.
+- One-hot nominal/status codes, train-fitted imputation/scaling and eight historical summaries. Class weighting is compared; no categorical SMOTE.
+- Test scores do not choose the model, calibration or threshold. Structured JSON/CSV provide experiment tracking.
 
-### 5.2 Quick Testing – `test_model.py`
+## Model comparison
+| Candidate | Training CV AP (mean ± SD) | Validation AP | Brier | Fit + CV seconds |
+|---|---:|---:|---:|---:|
+| dummy | 0.2181 ± 0.0023 | 0.2323 | 0.1786 | 0.6 |
+| logistic_None | 0.5315 ± 0.0167 | 0.5480 | 0.1401 | 1.6 |
+| logistic_balanced | 0.5289 ± 0.0179 | 0.5469 | 0.1845 | 1.8 |
+| random_forest_leaf10 | 0.5460 ± 0.0210 | 0.5695 | 0.1646 | 10.3 |
+| random_forest_leaf30 | 0.5447 ± 0.0232 | 0.5690 | 0.1742 | 9.2 |
+| gradient_boosting_depth2 | 0.5434 ± 0.0192 | 0.5660 | 0.1391 | 37.8 |
+| gradient_boosting_depth3 | 0.5504 ± 0.0160 | 0.5722 | 0.1384 | 46.2 |
+| xgboost_depth2 | 0.5446 ± 0.0186 | 0.5658 | 0.1388 | 2.2 |
+| xgboost_depth4 | 0.5510 ± 0.0159 | 0.5747 | 0.1380 | 2.4 |
+| soft_voting | 0.5522 ± 0.0163 | 0.5744 | 0.1381 | 49.6 |
 
-Run:
-```bash
-python test_model.py
-```
+Selected **XGBoost depth 4**. Voting offered no validation improvement. Sigmoid/isotonic were compared; original probabilities had the lowest validation Brier. Calibration was evaluated, not assumed to help. [Full experiments](docs/EXPERIMENTS.md).
 
-This will:
-- Load `model.pkl` and `feature_columns.json`.
-- Load `model_accuracy.json` (if present) and print accuracy.
-- Build a fixed sample input.
-- Print the predicted default probability and decision.
+## Explainable AI
+`POST /explain` returns SHAP contributions to the exact served default probability. Positive/negative values increase/decrease the estimate relative to 24 training-background rows. UI shows percentage points, not log odds. Global plots use 30 validation observations. Additivity is checked; explanations remain approximate and non-causal. [Model card](docs/MODEL_CARD.md).
 
----
+## Evaluation results
+| Metric | Held-out test | 95% group-bootstrap CI |
+|---|---:|---|
+| accuracy | 0.7937 | 0.7835–0.8046 |
+| precision | 0.5268 | 0.5035–0.5546 |
+| recall | 0.5904 | 0.5660–0.6142 |
+| f1 | 0.5568 | 0.5362–0.5797 |
+| macro_f1 | 0.7112 | 0.6996–0.7249 |
+| roc_auc | 0.7930 | 0.7803–0.8076 |
+| average_precision | 0.5708 | 0.5416–0.6013 |
+| balanced_accuracy | 0.7206 | 0.7082–0.7338 |
+| brier | 0.1309 | 0.1255–0.1361 |
+| false_positive_rate | 0.1491 | 0.1385–0.1592 |
+| false_negative_rate | 0.4096 | 0.3858–0.4340 |
 
-## 6. Libraries & Dependencies
+Threshold 0.28; confusion matrix `[[3982, 698], [539, 777]]` (truth rows, predicted columns). At 0.50 accuracy is 82.39% with recall 36.25%; the selected threshold is a validation F1 compromise. Historical 81.32% lacks its model artifact and used test-based selection, so it is not directly comparable.
 
-### Python (core)
+[Evaluation](reports/run-001/EVALUATION.md) · [JSON results](reports/run-001/evaluation.json) · [Technical report](docs/TECHNICAL_REPORT.md).
 
-- **pandas** – reading and manipulating the Excel dataset.
-- **numpy** – numeric arrays and safe feature computations.
-- **scikit-learn**:
-  - `RandomForestClassifier`, `GradientBoostingClassifier`
-  - `VotingClassifier`, `StackingClassifier`
-  - `train_test_split`, `SelectKBest`, `StandardScaler`
-  - `classification_report`, `accuracy_score`
-- **joblib** – saving and loading the trained model.
-- **Flask** – backend web framework.
-
-### Python (optional but recommended)
-
-- **xgboost** – gradient boosting model with strong performance.
-- **imbalanced-learn (SMOTE)** – handle imbalanced classes.
-- **flask-cors** – nicer CORS handling (optional; fallback provided).
-
-### Frontend
-
-- **Tailwind CSS (CDN)** – modern utility‑first styling.
-- **Lucide Icons (CDN)** – clean SVG icons.
-- **Vanilla JavaScript** – fetch API, DOM manipulation.
-
----
-
-## 7. How to Run the Full Project
-
-1. **Install Python dependencies** (minimal):
-   ```bash
-   pip install flask scikit-learn pandas numpy joblib openpyxl
-   ```
-
-   Optional (for maximum accuracy and robustness):
-   ```bash
-   pip install xgboost imbalanced-learn flask-cors
-   ```
-
-2. **Train the model**:
-   ```bash
-   python train_model.py
-   ```
-
-3. **Start the Flask server**:
-   ```bash
-   python server.py
-   ```
-
-4. **Open the app**:
-   - Navigate in your browser to:
-     - `http://127.0.0.1:5000`
-
-5. **Use the UI**:
-   - Fill in customer profile, bills, and payments.
-   - Click **“Run Risk Assessment”**.
-   - Review:
-     - Default probability.
-     - Risk level (Low/Medium/High).
-     - Model accuracy.
-
----
-
-## 8. Summary
-
-This project delivers:
-
-- A **production‑style ML pipeline**:
-  - Robust feature engineering.
-  - Handling of class imbalance.
-  - Model comparison and selection.
-  - Persisted artifacts and metrics.
-
-- A **clean API layer** via Flask:
-  - Simple, well‑defined endpoints for predictions and metrics.
-
-- A **professional UI**:
-  - Tailwind‑based single page.
-  - Real‑time risk feedback and visualization.
-
-You can extend it by:
-- Adjusting feature engineering.
-- Tuning model hyperparameters.
-- Enabling XGBoost and SMOTE for higher performance.
-- Integrating authentication or logging for real deployments.
-
-# Credit Card Score Risk Insights
-
-A professional, AI-powered credit card default risk assessment platform built with React, Tailwind CSS, and advanced machine learning models.
-
-## Features
-
-- 🎯 **High Accuracy**: Ensemble ML models achieving 81%+ accuracy
-- ⚡ **Real-Time Analysis**: Instant risk assessments
-- 🎨 **Modern UI**: Beautiful, responsive design with Tailwind CSS
-- 📊 **Detailed Insights**: Comprehensive risk scoring and probability analysis
-- 🔒 **Professional**: Enterprise-grade risk assessment tool
-
-## Tech Stack
-
-### Frontend
-- **React 18** - Modern UI framework
-- **Vite** - Fast build tool
-- **Tailwind CSS** - Utility-first CSS framework
-- **Lucide React** - Beautiful icons
-
-### Backend
-- **Flask** - Python web framework
-- **Scikit-learn** - Machine learning library
-- **XGBoost** (optional) - Advanced boosting algorithm
-- **SMOTE** (optional) - Class imbalance handling
+## Application screenshots
+![Prediction and local SHAP](docs/screenshots/prediction-desktop.png)
+![Evaluation dashboard](docs/screenshots/evaluation-desktop.png)
+[Mobile view](docs/screenshots/prediction-mobile.png).
 
 ## Installation
+Use **Python 3.12** and Node.js 22. Python 3.14 is unsupported by these pins because SHAP 0.50 specifies beta-only numba dependencies there.
 
-### 1. Install Python Dependencies
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+npm ci
+```
+On Linux/macOS use `source .venv/bin/activate`. `requirements-lock.txt` additionally records the full clean Python 3.12 dependency snapshot. If absent, obtain the original workbook following the dataset card; xlrd is pinned. Do not substitute data. Export settings from `.env.example` in your shell; this application does not automatically load dotenv files.
+
+## Training and evaluation
+```bash
+python train_model.py --output artifacts/run-001
+python -m credit_risk.evaluate --run artifacts/run-001 --report reports/run-001
+```
+Existing runs and final reports are protected from overwrite. This checkout already has frozen `reports/run-001`. To reproduce, use `--output artifacts/reproduction` and then `--run artifacts/reproduction --report reports/reproduction`; set MODEL_PATH and REPORT_DIR to those paths to serve the reproduction. Do not tune against an observed test set; future optimization requires a new external holdout. Bundles include the full pipeline and background data and are ignored by Git.
+
+## API usage
+Run `python server.py`. Endpoints (also with `/api` prefix): `GET /health`, `GET /model-info`, `POST /predict`, `POST /explain`. Additional `/api/evaluation`, `/api/plots/<allowlisted-name>` and legacy `/accuracy`/`/api/accuracy` remain.
 
 ```bash
-pip install flask scikit-learn pandas numpy joblib openpyxl
+curl -H "Content-Type: application/json" --data-binary @examples/applicant.json http://127.0.0.1:5000/predict
+curl -H "Content-Type: application/json" --data-binary @examples/applicant.json http://127.0.0.1:5000/explain
 ```
+Use `curl.exe` if PowerShell aliases curl. Supply exactly 23 raw fields. Invalid/missing/non-finite values return 400, wrong media type 415, unavailable model 503, busy explanations 429. Responses include probability, label, threshold, illustrative bands and version. No applicant records are stored by application code.
 
-Optional (for better accuracy):
-```bash
-pip install xgboost imbalanced-learn
-```
-
-### 2. Install Node.js Dependencies
-
-```bash
-npm install
-```
-
-## Usage
-
-### 1. Train the Model
-
-First, train the machine learning model:
-
-```bash
-python train_model.py
-```
-
-This will:
-- Load and preprocess the credit card data
-- Create advanced features
-- Train multiple models (RF, GB, XGBoost, Ensemble)
-- Save the best model to `model.pkl`
-- Display model accuracy
-
-### 2. Start the Backend Server
-
-```bash
-python server.py
-```
-
-The Flask server will start on `http://127.0.0.1:5000`
-
-### 3. Start the Frontend Development Server
-
-In a new terminal:
-
-```bash
-npm run dev
-```
-
-The React app will start on `http://localhost:3000`
-
-## Project Structure
-
-```
-Credit Card/
-├── src/
-│   ├── components/
-│   │   ├── Header.jsx          # Navigation header
-│   │   ├── RiskForm.jsx        # Input form component
-│   │   ├── RiskResults.jsx    # Results display component
-│   │   └── StatsPanel.jsx      # Model accuracy panel
-│   ├── App.jsx                 # Main application component
-│   ├── main.jsx                # React entry point
-│   └── index.css               # Global styles
-├── train_model.py              # Model training script
-├── server.py                   # Flask backend API
-├── test_model.py              # Model testing script
-├── package.json               # Node.js dependencies
-├── vite.config.js             # Vite configuration
-├── tailwind.config.js         # Tailwind CSS configuration
-└── README.md                   # This file
-```
-
-## API Endpoints
-
-### `POST /api/predict`
-Submit customer data for risk assessment.
-
-**Request Body:**
-```json
-{
-  "LIMIT_BAL": 200000,
-  "SEX": 1,
-  "EDUCATION": 2,
-  "MARRIAGE": 1,
-  "AGE": 35,
-  "PAY_0": 0,
-  "PAY_2": 0,
-  ...
-}
-```
-
-**Response:**
-```json
-{
-  "default_probability": 0.23,
-  "will_default": false,
-  "model_accuracy": 0.81
-}
-```
-
-### `GET /api/accuracy`
-Get the model's accuracy metrics.
-
-**Response:**
-```json
-{
-  "accuracy": 0.81,
-  "accuracy_percent": 81.0,
-  "train_accuracy": 0.98,
-  "train_accuracy_percent": 98.28
-}
-```
-
-## Model Information
-
-The system uses an ensemble of advanced machine learning models:
-
-- **Random Forest**: Multiple trees for robust predictions
-- **Gradient Boosting**: Sequential learning for accuracy
-- **XGBoost**: Optimized gradient boosting (if available)
-- **Stacking Ensemble**: Combines all models for best results
-
-Features include:
-- 25+ engineered features
-- Feature selection
-- SMOTE for handling class imbalance
-- Hyperparameter optimization
-
-## Development
-
-### Build for Production
-
+## Running the frontend
 ```bash
 npm run build
+python server.py
 ```
+Open http://127.0.0.1:5000. Waitress serves React and APIs. For development run `npm run dev` in another terminal and open http://localhost:3000; Vite proxies `/api` to Flask. Debug is disabled; source/data files are not static assets. CORS defaults to same-origin.
 
-The built files will be in the `dist/` directory.
-
-### Preview Production Build
-
+## Tests
 ```bash
-npm run preview
+python -m pytest -q
+npm run build
+npx playwright test
 ```
+Browser tests require the trained model, frozen report, build and running server. They use installed Edge by default; set PLAYWRIGHT_CHANNEL=chromium and run `npx playwright install chromium` elsewhere. Tests exercise real predictions, SHAP reconstruction, evaluation plots, invalid-input/error states and a 390px viewport. CI runs synthetic Python tests/build without data or a fitted artifact. [Verification record](docs/VERIFICATION.md).
 
-## License
+## Docker setup
+```bash
+docker build -t credit-risk .
+docker run --rm -p 5000:5000 -v "$PWD/artifacts:/app/artifacts:ro" credit-risk
+```
+Train first with the pinned environment. The bundle is excluded from the image and mounted read-only. Container user is non-root. **Docker execution was not verified: Docker is unavailable here.** No cloud deployment was performed.
 
-This project is for educational and analytical purposes only.
+## Limitations
+Historical single-country data, unmeasured drift, imperfect probabilities, no lending-cost optimum, descriptive subgroups without subgroup intervals and small SHAP samples limit conclusions. Manifests do not make untrusted pickle safe. No authentication or durable rate limiting is provided. See model and dataset cards.
 
-## Disclaimer
+## Responsible AI
+Use synthetic inputs and never use this as the sole basis for real lending. Demographic fields may encode disadvantage. SHAP explains model associations, not causes; risk bands are illustrative, not policy recommendations. Evaluate external validity and relevant governance before any real-world use.
 
-This tool is for analytical support only and does not constitute a lending decision on its own. Always use this score alongside internal policies and manual review.
+## Future research and portfolio use
+Preregister cost-based objectives; evaluate new temporal/geographic cohorts; study sensitive-feature ablations, subgroup uncertainty and SHAP stability. For Master's applications, explain the leakage/inference corrections and threshold trade-offs, link the report and demo, and present this as applied ML engineering. [Verified resume bullets](docs/RESUME_BULLETS.md).
 
+## Attribution and license
+Original application: linked repository owner. Historical code/README are retained in `legacy/`; original notebook remains historical. Dataset: I-Cheng Yeh/UCI, CC BY 4.0. No explicit code license was present and this upgrade does not invent one; the owner should select one before redistribution. Model artifacts and local environments are excluded from Git; published reports contain aggregate results only.
