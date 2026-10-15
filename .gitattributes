@@ -1,0 +1,2 @@
+# Preserve exact bytes for the source snapshots whose SHA-256 hashes were frozen.
+reports/full-development-004/frozen-source/*.py -text

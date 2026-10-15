@@ -1,0 +1,29 @@
+{
+  "algorithm": "incumbent_behavior_blend",
+  "seconds": 6.5320481999997355,
+  "threshold": 0.28500000000000003,
+  "recall_floor": 0.58,
+  "metrics": {
+    "accuracy": 0.7917777777777778,
+    "precision": 0.520136518771331,
+    "recall": 0.5824203821656051,
+    "f1": 0.5495192307692308,
+    "macro_f1": 0.7070573032458871,
+    "roc_auc": 0.7876220067653946,
+    "average_precision": 0.5501438207284052,
+    "balanced_accuracy": 0.7162901200348452,
+    "brier": 0.13280248494618418,
+    "false_positive_rate": 0.14984014209591473,
+    "false_negative_rate": 0.4175796178343949,
+    "confusion_matrix": [
+      [
+        11966,
+        2109
+      ],
+      [
+        1639,
+        2286
+      ]
+    ]
+  }
+}

@@ -1,0 +1,2884 @@
+{
+  "protocol": {
+    "seed": 20261015,
+    "profile": "behavior",
+    "selection_recall_floor": 0.58,
+    "outer_folds": 3,
+    "inner_folds": 3,
+    "rows_used_for_search": 18000,
+    "validation_role": "Previously used validation: development audit only; no model/threshold changes after audit.",
+    "test_role": "Excluded, never scored or used for tuning.",
+    "recall_floor": 0.56,
+    "maximum_recall_drop": 0.03,
+    "min_accuracy_gain": 0.005,
+    "max_brier_increase": 0.005,
+    "promotion": "Nested and validation point estimates must pass guardrails; nested paired accuracy CI lower bound > 0.",
+    "threshold_grid": "0.000 to 1.000 in increments of 0.005; maximize accuracy then recall.",
+    "candidate_parameters": {
+      "incumbent_xgb": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "FeatureBuilder()"
+          ],
+          [
+            "preprocess",
+            "ColumnTransformer(transformers=[('numeric',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='median')),\n                                                 ('scale', StandardScaler())]),\n                                 ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',\n                                  'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5',\n                                  'BILL_AMT6', 'PAY_AMT1', 'PAY_AMT2',\n                                  'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5',\n                                  'PAY_AMT6', 'AVG_BILL_AMT', 'STD_BILL_AMT',\n                                  'AVG_PAY_AMT', 'PAY_CONSISTENCY',\n                                  'UTILIZATION_RATIO', 'BILL_CHANGE',\n                                  'DELAY_COUNT', 'MAX_PAY_DELAY']),\n                                ('categorical',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='most_frequent')),\n                                                 ('encode',\n                                                  OneHotEncoder(handle_unknown='ignore',\n                                                                sparse_output=False))]),\n                                 ['SEX', 'EDUCATION', 'MARRIAGE', 'PAY_0',\n                                  'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5',\n                                  'PAY_6'])])"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.05, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=10, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=150, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "FeatureBuilder()",
+        "preprocess": "ColumnTransformer(transformers=[('numeric',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='median')),\n                                                 ('scale', StandardScaler())]),\n                                 ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',\n                                  'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5',\n                                  'BILL_AMT6', 'PAY_AMT1', 'PAY_AMT2',\n                                  'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5',\n                                  'PAY_AMT6', 'AVG_BILL_AMT', 'STD_BILL_AMT',\n                                  'AVG_PAY_AMT', 'PAY_CONSISTENCY',\n                                  'UTILIZATION_RATIO', 'BILL_CHANGE',\n                                  'DELAY_COUNT', 'MAX_PAY_DELAY']),\n                                ('categorical',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='most_frequent')),\n                                                 ('encode',\n                                                  OneHotEncoder(handle_unknown='ignore',\n                                                                sparse_output=False))]),\n                                 ['SEX', 'EDUCATION', 'MARRIAGE', 'PAY_0',\n                                  'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5',\n                                  'PAY_6'])])",
+        "model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.05, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=10, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=150, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "preprocess__force_int_remainder_cols": "deprecated",
+        "preprocess__n_jobs": null,
+        "preprocess__remainder": "drop",
+        "preprocess__sparse_threshold": 0.3,
+        "preprocess__transformer_weights": null,
+        "preprocess__transformers": [
+          [
+            "numeric",
+            "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True, strategy='median')),\n                ('scale', StandardScaler())])",
+            [
+              "LIMIT_BAL",
+              "AGE",
+              "BILL_AMT1",
+              "BILL_AMT2",
+              "BILL_AMT3",
+              "BILL_AMT4",
+              "BILL_AMT5",
+              "BILL_AMT6",
+              "PAY_AMT1",
+              "PAY_AMT2",
+              "PAY_AMT3",
+              "PAY_AMT4",
+              "PAY_AMT5",
+              "PAY_AMT6",
+              "AVG_BILL_AMT",
+              "STD_BILL_AMT",
+              "AVG_PAY_AMT",
+              "PAY_CONSISTENCY",
+              "UTILIZATION_RATIO",
+              "BILL_CHANGE",
+              "DELAY_COUNT",
+              "MAX_PAY_DELAY"
+            ]
+          ],
+          [
+            "categorical",
+            "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True,\n                               strategy='most_frequent')),\n                ('encode',\n                 OneHotEncoder(handle_unknown='ignore', sparse_output=False))])",
+            [
+              "SEX",
+              "EDUCATION",
+              "MARRIAGE",
+              "PAY_0",
+              "PAY_2",
+              "PAY_3",
+              "PAY_4",
+              "PAY_5",
+              "PAY_6"
+            ]
+          ]
+        ],
+        "preprocess__verbose": false,
+        "preprocess__verbose_feature_names_out": true,
+        "preprocess__numeric": "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True, strategy='median')),\n                ('scale', StandardScaler())])",
+        "preprocess__categorical": "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True,\n                               strategy='most_frequent')),\n                ('encode',\n                 OneHotEncoder(handle_unknown='ignore', sparse_output=False))])",
+        "preprocess__numeric__memory": null,
+        "preprocess__numeric__steps": [
+          [
+            "impute",
+            "SimpleImputer(keep_empty_features=True, strategy='median')"
+          ],
+          [
+            "scale",
+            "StandardScaler()"
+          ]
+        ],
+        "preprocess__numeric__transform_input": null,
+        "preprocess__numeric__verbose": false,
+        "preprocess__numeric__impute": "SimpleImputer(keep_empty_features=True, strategy='median')",
+        "preprocess__numeric__scale": "StandardScaler()",
+        "preprocess__numeric__impute__add_indicator": false,
+        "preprocess__numeric__impute__copy": true,
+        "preprocess__numeric__impute__fill_value": null,
+        "preprocess__numeric__impute__keep_empty_features": true,
+        "preprocess__numeric__impute__missing_values": "NaN",
+        "preprocess__numeric__impute__strategy": "median",
+        "preprocess__numeric__scale__copy": true,
+        "preprocess__numeric__scale__with_mean": true,
+        "preprocess__numeric__scale__with_std": true,
+        "preprocess__categorical__memory": null,
+        "preprocess__categorical__steps": [
+          [
+            "impute",
+            "SimpleImputer(keep_empty_features=True, strategy='most_frequent')"
+          ],
+          [
+            "encode",
+            "OneHotEncoder(handle_unknown='ignore', sparse_output=False)"
+          ]
+        ],
+        "preprocess__categorical__transform_input": null,
+        "preprocess__categorical__verbose": false,
+        "preprocess__categorical__impute": "SimpleImputer(keep_empty_features=True, strategy='most_frequent')",
+        "preprocess__categorical__encode": "OneHotEncoder(handle_unknown='ignore', sparse_output=False)",
+        "preprocess__categorical__impute__add_indicator": false,
+        "preprocess__categorical__impute__copy": true,
+        "preprocess__categorical__impute__fill_value": null,
+        "preprocess__categorical__impute__keep_empty_features": true,
+        "preprocess__categorical__impute__missing_values": "NaN",
+        "preprocess__categorical__impute__strategy": "most_frequent",
+        "preprocess__categorical__encode__categories": "auto",
+        "preprocess__categorical__encode__drop": null,
+        "preprocess__categorical__encode__dtype": "<class 'numpy.float64'>",
+        "preprocess__categorical__encode__feature_name_combiner": "concat",
+        "preprocess__categorical__encode__handle_unknown": "ignore",
+        "preprocess__categorical__encode__max_categories": null,
+        "preprocess__categorical__encode__min_frequency": null,
+        "preprocess__categorical__encode__sparse_output": false,
+        "model__objective": "binary:logistic",
+        "model__base_score": null,
+        "model__booster": null,
+        "model__callbacks": null,
+        "model__colsample_bylevel": null,
+        "model__colsample_bynode": null,
+        "model__colsample_bytree": 0.9,
+        "model__device": null,
+        "model__early_stopping_rounds": null,
+        "model__enable_categorical": false,
+        "model__eval_metric": "logloss",
+        "model__feature_types": null,
+        "model__feature_weights": null,
+        "model__gamma": null,
+        "model__grow_policy": null,
+        "model__importance_type": null,
+        "model__interaction_constraints": null,
+        "model__learning_rate": 0.05,
+        "model__max_bin": null,
+        "model__max_cat_threshold": null,
+        "model__max_cat_to_onehot": null,
+        "model__max_delta_step": null,
+        "model__max_depth": 4,
+        "model__max_leaves": null,
+        "model__min_child_weight": 10,
+        "model__missing": "NaN",
+        "model__monotone_constraints": null,
+        "model__multi_strategy": null,
+        "model__n_estimators": 150,
+        "model__n_jobs": 2,
+        "model__num_parallel_tree": null,
+        "model__random_state": 42,
+        "model__reg_alpha": null,
+        "model__reg_lambda": null,
+        "model__sampling_method": null,
+        "model__scale_pos_weight": null,
+        "model__subsample": 0.9,
+        "model__tree_method": null,
+        "model__validate_parameters": null,
+        "model__verbosity": null
+      },
+      "ordinal_xgb_d3": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures(enriched=False)"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=3, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures(enriched=False)",
+        "model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=3, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "features__enriched": false,
+        "model__objective": "binary:logistic",
+        "model__base_score": null,
+        "model__booster": null,
+        "model__callbacks": null,
+        "model__colsample_bylevel": null,
+        "model__colsample_bynode": null,
+        "model__colsample_bytree": 0.9,
+        "model__device": null,
+        "model__early_stopping_rounds": null,
+        "model__enable_categorical": false,
+        "model__eval_metric": "logloss",
+        "model__feature_types": null,
+        "model__feature_weights": null,
+        "model__gamma": null,
+        "model__grow_policy": null,
+        "model__importance_type": null,
+        "model__interaction_constraints": null,
+        "model__learning_rate": 0.035,
+        "model__max_bin": null,
+        "model__max_cat_threshold": null,
+        "model__max_cat_to_onehot": null,
+        "model__max_delta_step": null,
+        "model__max_depth": 3,
+        "model__max_leaves": null,
+        "model__min_child_weight": 20,
+        "model__missing": "NaN",
+        "model__monotone_constraints": null,
+        "model__multi_strategy": null,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_parallel_tree": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__sampling_method": null,
+        "model__scale_pos_weight": null,
+        "model__subsample": 0.9,
+        "model__tree_method": null,
+        "model__validate_parameters": null,
+        "model__verbosity": null
+      },
+      "ordinal_xgb_d4": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures(enriched=False)"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures(enriched=False)",
+        "model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "features__enriched": false,
+        "model__objective": "binary:logistic",
+        "model__base_score": null,
+        "model__booster": null,
+        "model__callbacks": null,
+        "model__colsample_bylevel": null,
+        "model__colsample_bynode": null,
+        "model__colsample_bytree": 0.9,
+        "model__device": null,
+        "model__early_stopping_rounds": null,
+        "model__enable_categorical": false,
+        "model__eval_metric": "logloss",
+        "model__feature_types": null,
+        "model__feature_weights": null,
+        "model__gamma": null,
+        "model__grow_policy": null,
+        "model__importance_type": null,
+        "model__interaction_constraints": null,
+        "model__learning_rate": 0.035,
+        "model__max_bin": null,
+        "model__max_cat_threshold": null,
+        "model__max_cat_to_onehot": null,
+        "model__max_delta_step": null,
+        "model__max_depth": 4,
+        "model__max_leaves": null,
+        "model__min_child_weight": 20,
+        "model__missing": "NaN",
+        "model__monotone_constraints": null,
+        "model__multi_strategy": null,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_parallel_tree": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__sampling_method": null,
+        "model__scale_pos_weight": null,
+        "model__subsample": 0.9,
+        "model__tree_method": null,
+        "model__validate_parameters": null,
+        "model__verbosity": null
+      },
+      "behavior_xgb_d3": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=3, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=3, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "features__enriched": true,
+        "model__objective": "binary:logistic",
+        "model__base_score": null,
+        "model__booster": null,
+        "model__callbacks": null,
+        "model__colsample_bylevel": null,
+        "model__colsample_bynode": null,
+        "model__colsample_bytree": 0.9,
+        "model__device": null,
+        "model__early_stopping_rounds": null,
+        "model__enable_categorical": false,
+        "model__eval_metric": "logloss",
+        "model__feature_types": null,
+        "model__feature_weights": null,
+        "model__gamma": null,
+        "model__grow_policy": null,
+        "model__importance_type": null,
+        "model__interaction_constraints": null,
+        "model__learning_rate": 0.035,
+        "model__max_bin": null,
+        "model__max_cat_threshold": null,
+        "model__max_cat_to_onehot": null,
+        "model__max_delta_step": null,
+        "model__max_depth": 3,
+        "model__max_leaves": null,
+        "model__min_child_weight": 20,
+        "model__missing": "NaN",
+        "model__monotone_constraints": null,
+        "model__multi_strategy": null,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_parallel_tree": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__sampling_method": null,
+        "model__scale_pos_weight": null,
+        "model__subsample": 0.9,
+        "model__tree_method": null,
+        "model__validate_parameters": null,
+        "model__verbosity": null
+      },
+      "behavior_xgb_d4": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "features__enriched": true,
+        "model__objective": "binary:logistic",
+        "model__base_score": null,
+        "model__booster": null,
+        "model__callbacks": null,
+        "model__colsample_bylevel": null,
+        "model__colsample_bynode": null,
+        "model__colsample_bytree": 0.9,
+        "model__device": null,
+        "model__early_stopping_rounds": null,
+        "model__enable_categorical": false,
+        "model__eval_metric": "logloss",
+        "model__feature_types": null,
+        "model__feature_weights": null,
+        "model__gamma": null,
+        "model__grow_policy": null,
+        "model__importance_type": null,
+        "model__interaction_constraints": null,
+        "model__learning_rate": 0.035,
+        "model__max_bin": null,
+        "model__max_cat_threshold": null,
+        "model__max_cat_to_onehot": null,
+        "model__max_delta_step": null,
+        "model__max_depth": 4,
+        "model__max_leaves": null,
+        "model__min_child_weight": 20,
+        "model__missing": "NaN",
+        "model__monotone_constraints": null,
+        "model__multi_strategy": null,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_parallel_tree": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__sampling_method": null,
+        "model__scale_pos_weight": null,
+        "model__subsample": 0.9,
+        "model__tree_method": null,
+        "model__validate_parameters": null,
+        "model__verbosity": null
+      },
+      "behavior_xgb_d5": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=5, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=5, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "features__enriched": true,
+        "model__objective": "binary:logistic",
+        "model__base_score": null,
+        "model__booster": null,
+        "model__callbacks": null,
+        "model__colsample_bylevel": null,
+        "model__colsample_bynode": null,
+        "model__colsample_bytree": 0.9,
+        "model__device": null,
+        "model__early_stopping_rounds": null,
+        "model__enable_categorical": false,
+        "model__eval_metric": "logloss",
+        "model__feature_types": null,
+        "model__feature_weights": null,
+        "model__gamma": null,
+        "model__grow_policy": null,
+        "model__importance_type": null,
+        "model__interaction_constraints": null,
+        "model__learning_rate": 0.035,
+        "model__max_bin": null,
+        "model__max_cat_threshold": null,
+        "model__max_cat_to_onehot": null,
+        "model__max_delta_step": null,
+        "model__max_depth": 5,
+        "model__max_leaves": null,
+        "model__min_child_weight": 20,
+        "model__missing": "NaN",
+        "model__monotone_constraints": null,
+        "model__multi_strategy": null,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_parallel_tree": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__sampling_method": null,
+        "model__scale_pos_weight": null,
+        "model__subsample": 0.9,
+        "model__tree_method": null,
+        "model__validate_parameters": null,
+        "model__verbosity": null
+      },
+      "behavior_lgb_7": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=7, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=7, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)",
+        "features__enriched": true,
+        "model__boosting_type": "gbdt",
+        "model__class_weight": null,
+        "model__colsample_bytree": 0.9,
+        "model__importance_type": "split",
+        "model__learning_rate": 0.035,
+        "model__max_depth": -1,
+        "model__min_child_samples": 60,
+        "model__min_child_weight": 0.001,
+        "model__min_split_gain": 0.0,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_leaves": 7,
+        "model__objective": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__subsample": 0.9,
+        "model__subsample_for_bin": 200000,
+        "model__subsample_freq": 1,
+        "model__verbosity": -1,
+        "model__deterministic": true,
+        "model__force_col_wise": true
+      },
+      "behavior_lgb_15": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=15, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=15, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)",
+        "features__enriched": true,
+        "model__boosting_type": "gbdt",
+        "model__class_weight": null,
+        "model__colsample_bytree": 0.9,
+        "model__importance_type": "split",
+        "model__learning_rate": 0.035,
+        "model__max_depth": -1,
+        "model__min_child_samples": 60,
+        "model__min_child_weight": 0.001,
+        "model__min_split_gain": 0.0,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_leaves": 15,
+        "model__objective": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__subsample": 0.9,
+        "model__subsample_for_bin": 200000,
+        "model__subsample_freq": 1,
+        "model__verbosity": -1,
+        "model__deterministic": true,
+        "model__force_col_wise": true
+      },
+      "behavior_lgb_31": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, random_state=42, reg_alpha=0.5, reg_lambda=10,\n               subsample=0.9, subsample_freq=1, verbosity=-1)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, random_state=42, reg_alpha=0.5, reg_lambda=10,\n               subsample=0.9, subsample_freq=1, verbosity=-1)",
+        "features__enriched": true,
+        "model__boosting_type": "gbdt",
+        "model__class_weight": null,
+        "model__colsample_bytree": 0.9,
+        "model__importance_type": "split",
+        "model__learning_rate": 0.035,
+        "model__max_depth": -1,
+        "model__min_child_samples": 60,
+        "model__min_child_weight": 0.001,
+        "model__min_split_gain": 0.0,
+        "model__n_estimators": 350,
+        "model__n_jobs": 2,
+        "model__num_leaves": 31,
+        "model__objective": null,
+        "model__random_state": 42,
+        "model__reg_alpha": 0.5,
+        "model__reg_lambda": 10,
+        "model__subsample": 0.9,
+        "model__subsample_for_bin": 200000,
+        "model__subsample_freq": 1,
+        "model__verbosity": -1,
+        "model__deterministic": true,
+        "model__force_col_wise": true
+      },
+      "behavior_hist7": {
+        "memory": null,
+        "steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "HistGradientBoostingClassifier(early_stopping=False, l2_regularization=15,\n                               learning_rate=0.05, max_iter=250,\n                               max_leaf_nodes=7, min_samples_leaf=50,\n                               random_state=42)"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "features": "RepaymentFeatures()",
+        "model": "HistGradientBoostingClassifier(early_stopping=False, l2_regularization=15,\n                               learning_rate=0.05, max_iter=250,\n                               max_leaf_nodes=7, min_samples_leaf=50,\n                               random_state=42)",
+        "features__enriched": true,
+        "model__categorical_features": "from_dtype",
+        "model__class_weight": null,
+        "model__early_stopping": false,
+        "model__interaction_cst": null,
+        "model__l2_regularization": 15,
+        "model__learning_rate": 0.05,
+        "model__loss": "log_loss",
+        "model__max_bins": 255,
+        "model__max_depth": null,
+        "model__max_features": 1.0,
+        "model__max_iter": 250,
+        "model__max_leaf_nodes": 7,
+        "model__min_samples_leaf": 50,
+        "model__monotonic_cst": null,
+        "model__n_iter_no_change": 10,
+        "model__random_state": 42,
+        "model__scoring": "loss",
+        "model__tol": 1e-07,
+        "model__validation_fraction": 0.1,
+        "model__verbose": 0,
+        "model__warm_start": false
+      },
+      "behavior_blend": {
+        "memory": null,
+        "steps": [
+          [
+            "model",
+            "VotingClassifier(estimators=[('xgb',\n                              Pipeline(steps=[('features', RepaymentFeatures()),\n                                              ('model',\n                                               XGBClassifier(base_score=None,\n                                                             booster=None,\n                                                             callbacks=None,\n                                                             colsample_bylevel=None,\n                                                             colsample_bynode=None,\n                                                             colsample_bytree=0.9,\n                                                             device=None,\n                                                             early_stopping_rounds=None,\n                                                             enable_categorical=False,\n                                                             eval_metric='logloss',\n                                                             feature_types=None,\n                                                             feature_weights=None,\n                                                             gamma=...\n                                                             num_parallel_tree=None, ...))])),\n                             ('lgb',\n                              Pipeline(steps=[('features', RepaymentFeatures()),\n                                              ('model',\n                                               LGBMClassifier(colsample_bytree=0.9,\n                                                              deterministic=True,\n                                                              force_col_wise=True,\n                                                              learning_rate=0.035,\n                                                              min_child_samples=60,\n                                                              n_estimators=350,\n                                                              n_jobs=2,\n                                                              num_leaves=15,\n                                                              random_state=42,\n                                                              reg_alpha=0.5,\n                                                              reg_lambda=10,\n                                                              subsample=0.9,\n                                                              subsample_freq=1,\n                                                              verbosity=-1))]))],\n                 voting='soft')"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "model": "VotingClassifier(estimators=[('xgb',\n                              Pipeline(steps=[('features', RepaymentFeatures()),\n                                              ('model',\n                                               XGBClassifier(base_score=None,\n                                                             booster=None,\n                                                             callbacks=None,\n                                                             colsample_bylevel=None,\n                                                             colsample_bynode=None,\n                                                             colsample_bytree=0.9,\n                                                             device=None,\n                                                             early_stopping_rounds=None,\n                                                             enable_categorical=False,\n                                                             eval_metric='logloss',\n                                                             feature_types=None,\n                                                             feature_weights=None,\n                                                             gamma=...\n                                                             num_parallel_tree=None, ...))])),\n                             ('lgb',\n                              Pipeline(steps=[('features', RepaymentFeatures()),\n                                              ('model',\n                                               LGBMClassifier(colsample_bytree=0.9,\n                                                              deterministic=True,\n                                                              force_col_wise=True,\n                                                              learning_rate=0.035,\n                                                              min_child_samples=60,\n                                                              n_estimators=350,\n                                                              n_jobs=2,\n                                                              num_leaves=15,\n                                                              random_state=42,\n                                                              reg_alpha=0.5,\n                                                              reg_lambda=10,\n                                                              subsample=0.9,\n                                                              subsample_freq=1,\n                                                              verbosity=-1))]))],\n                 voting='soft')",
+        "model__estimators": [
+          [
+            "xgb",
+            "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 XGBClassifier(base_score=None, booster=None, callbacks=None,\n                               colsample_bylevel=None, colsample_bynode=None,\n                               colsample_bytree=0.9, device=None,\n                               early_stopping_rounds=None,\n                               enable_categorical=False, eval_metric='logloss',\n                               feature_types=None, feature_weights=None,\n                               gamma=None, grow_policy=None,\n                               importance_type=None,\n                               interaction_constraints=None,\n                               learning_rate=0.035, max_bin=None,\n                               max_cat_threshold=None, max_cat_to_onehot=None,\n                               max_delta_step=None, max_depth=4,\n                               max_leaves=None, min_child_weight=20,\n                               missing=nan, monotone_constraints=None,\n                               multi_strategy=None, n_estimators=350, n_jobs=2,\n                               num_parallel_tree=None, ...))])"
+          ],
+          [
+            "lgb",
+            "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 LGBMClassifier(colsample_bytree=0.9, deterministic=True,\n                                force_col_wise=True, learning_rate=0.035,\n                                min_child_samples=60, n_estimators=350,\n                                n_jobs=2, num_leaves=15, random_state=42,\n                                reg_alpha=0.5, reg_lambda=10, subsample=0.9,\n                                subsample_freq=1, verbosity=-1))])"
+          ]
+        ],
+        "model__flatten_transform": true,
+        "model__n_jobs": null,
+        "model__verbose": false,
+        "model__voting": "soft",
+        "model__weights": null,
+        "model__xgb": "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 XGBClassifier(base_score=None, booster=None, callbacks=None,\n                               colsample_bylevel=None, colsample_bynode=None,\n                               colsample_bytree=0.9, device=None,\n                               early_stopping_rounds=None,\n                               enable_categorical=False, eval_metric='logloss',\n                               feature_types=None, feature_weights=None,\n                               gamma=None, grow_policy=None,\n                               importance_type=None,\n                               interaction_constraints=None,\n                               learning_rate=0.035, max_bin=None,\n                               max_cat_threshold=None, max_cat_to_onehot=None,\n                               max_delta_step=None, max_depth=4,\n                               max_leaves=None, min_child_weight=20,\n                               missing=nan, monotone_constraints=None,\n                               multi_strategy=None, n_estimators=350, n_jobs=2,\n                               num_parallel_tree=None, ...))])",
+        "model__lgb": "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 LGBMClassifier(colsample_bytree=0.9, deterministic=True,\n                                force_col_wise=True, learning_rate=0.035,\n                                min_child_samples=60, n_estimators=350,\n                                n_jobs=2, num_leaves=15, random_state=42,\n                                reg_alpha=0.5, reg_lambda=10, subsample=0.9,\n                                subsample_freq=1, verbosity=-1))])",
+        "model__xgb__memory": null,
+        "model__xgb__steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "model__xgb__transform_input": null,
+        "model__xgb__verbose": false,
+        "model__xgb__features": "RepaymentFeatures()",
+        "model__xgb__model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "model__xgb__features__enriched": true,
+        "model__xgb__model__objective": "binary:logistic",
+        "model__xgb__model__base_score": null,
+        "model__xgb__model__booster": null,
+        "model__xgb__model__callbacks": null,
+        "model__xgb__model__colsample_bylevel": null,
+        "model__xgb__model__colsample_bynode": null,
+        "model__xgb__model__colsample_bytree": 0.9,
+        "model__xgb__model__device": null,
+        "model__xgb__model__early_stopping_rounds": null,
+        "model__xgb__model__enable_categorical": false,
+        "model__xgb__model__eval_metric": "logloss",
+        "model__xgb__model__feature_types": null,
+        "model__xgb__model__feature_weights": null,
+        "model__xgb__model__gamma": null,
+        "model__xgb__model__grow_policy": null,
+        "model__xgb__model__importance_type": null,
+        "model__xgb__model__interaction_constraints": null,
+        "model__xgb__model__learning_rate": 0.035,
+        "model__xgb__model__max_bin": null,
+        "model__xgb__model__max_cat_threshold": null,
+        "model__xgb__model__max_cat_to_onehot": null,
+        "model__xgb__model__max_delta_step": null,
+        "model__xgb__model__max_depth": 4,
+        "model__xgb__model__max_leaves": null,
+        "model__xgb__model__min_child_weight": 20,
+        "model__xgb__model__missing": "NaN",
+        "model__xgb__model__monotone_constraints": null,
+        "model__xgb__model__multi_strategy": null,
+        "model__xgb__model__n_estimators": 350,
+        "model__xgb__model__n_jobs": 2,
+        "model__xgb__model__num_parallel_tree": null,
+        "model__xgb__model__random_state": 42,
+        "model__xgb__model__reg_alpha": 0.5,
+        "model__xgb__model__reg_lambda": 10,
+        "model__xgb__model__sampling_method": null,
+        "model__xgb__model__scale_pos_weight": null,
+        "model__xgb__model__subsample": 0.9,
+        "model__xgb__model__tree_method": null,
+        "model__xgb__model__validate_parameters": null,
+        "model__xgb__model__verbosity": null,
+        "model__lgb__memory": null,
+        "model__lgb__steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=15, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)"
+          ]
+        ],
+        "model__lgb__transform_input": null,
+        "model__lgb__verbose": false,
+        "model__lgb__features": "RepaymentFeatures()",
+        "model__lgb__model": "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=15, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)",
+        "model__lgb__features__enriched": true,
+        "model__lgb__model__boosting_type": "gbdt",
+        "model__lgb__model__class_weight": null,
+        "model__lgb__model__colsample_bytree": 0.9,
+        "model__lgb__model__importance_type": "split",
+        "model__lgb__model__learning_rate": 0.035,
+        "model__lgb__model__max_depth": -1,
+        "model__lgb__model__min_child_samples": 60,
+        "model__lgb__model__min_child_weight": 0.001,
+        "model__lgb__model__min_split_gain": 0.0,
+        "model__lgb__model__n_estimators": 350,
+        "model__lgb__model__n_jobs": 2,
+        "model__lgb__model__num_leaves": 15,
+        "model__lgb__model__objective": null,
+        "model__lgb__model__random_state": 42,
+        "model__lgb__model__reg_alpha": 0.5,
+        "model__lgb__model__reg_lambda": 10,
+        "model__lgb__model__subsample": 0.9,
+        "model__lgb__model__subsample_for_bin": 200000,
+        "model__lgb__model__subsample_freq": 1,
+        "model__lgb__model__verbosity": -1,
+        "model__lgb__model__deterministic": true,
+        "model__lgb__model__force_col_wise": true
+      },
+      "incumbent_behavior_blend": {
+        "memory": null,
+        "steps": [
+          [
+            "model",
+            "VotingClassifier(estimators=[('incumbent',\n                              Pipeline(steps=[('features', FeatureBuilder()),\n                                              ('preprocess',\n                                               ColumnTransformer(transformers=[('numeric',\n                                                                                Pipeline(steps=[('impute',\n                                                                                                 SimpleImputer(keep_empty_features=True,\n                                                                                                               strategy='median')),\n                                                                                                ('scale',\n                                                                                                 StandardScaler())]),\n                                                                                ['LIMIT_BAL',\n                                                                                 'AGE',\n                                                                                 'BILL_AMT1',\n                                                                                 'BILL_AMT2',\n                                                                                 'BILL_AMT3',\n                                                                                 'BILL_AMT4',\n                                                                                 'BILL_AMT5',\n                                                                                 'BILL_AMT6',...\n                                                             num_parallel_tree=None, ...))])),\n                             ('lgb',\n                              Pipeline(steps=[('features', RepaymentFeatures()),\n                                              ('model',\n                                               LGBMClassifier(colsample_bytree=0.9,\n                                                              deterministic=True,\n                                                              force_col_wise=True,\n                                                              learning_rate=0.035,\n                                                              min_child_samples=60,\n                                                              n_estimators=350,\n                                                              n_jobs=2,\n                                                              num_leaves=15,\n                                                              random_state=42,\n                                                              reg_alpha=0.5,\n                                                              reg_lambda=10,\n                                                              subsample=0.9,\n                                                              subsample_freq=1,\n                                                              verbosity=-1))]))],\n                 voting='soft')"
+          ]
+        ],
+        "transform_input": null,
+        "verbose": false,
+        "model": "VotingClassifier(estimators=[('incumbent',\n                              Pipeline(steps=[('features', FeatureBuilder()),\n                                              ('preprocess',\n                                               ColumnTransformer(transformers=[('numeric',\n                                                                                Pipeline(steps=[('impute',\n                                                                                                 SimpleImputer(keep_empty_features=True,\n                                                                                                               strategy='median')),\n                                                                                                ('scale',\n                                                                                                 StandardScaler())]),\n                                                                                ['LIMIT_BAL',\n                                                                                 'AGE',\n                                                                                 'BILL_AMT1',\n                                                                                 'BILL_AMT2',\n                                                                                 'BILL_AMT3',\n                                                                                 'BILL_AMT4',\n                                                                                 'BILL_AMT5',\n                                                                                 'BILL_AMT6',...\n                                                             num_parallel_tree=None, ...))])),\n                             ('lgb',\n                              Pipeline(steps=[('features', RepaymentFeatures()),\n                                              ('model',\n                                               LGBMClassifier(colsample_bytree=0.9,\n                                                              deterministic=True,\n                                                              force_col_wise=True,\n                                                              learning_rate=0.035,\n                                                              min_child_samples=60,\n                                                              n_estimators=350,\n                                                              n_jobs=2,\n                                                              num_leaves=15,\n                                                              random_state=42,\n                                                              reg_alpha=0.5,\n                                                              reg_lambda=10,\n                                                              subsample=0.9,\n                                                              subsample_freq=1,\n                                                              verbosity=-1))]))],\n                 voting='soft')",
+        "model__estimators": [
+          [
+            "incumbent",
+            "Pipeline(steps=[('features', FeatureBuilder()),\n                ('preprocess',\n                 ColumnTransformer(transformers=[('numeric',\n                                                  Pipeline(steps=[('impute',\n                                                                   SimpleImputer(keep_empty_features=True,\n                                                                                 strategy='median')),\n                                                                  ('scale',\n                                                                   StandardScaler())]),\n                                                  ['LIMIT_BAL', 'AGE',\n                                                   'BILL_AMT1', 'BILL_AMT2',\n                                                   'BILL_AMT3', 'BILL_AMT4',\n                                                   'BILL_AMT5', 'BILL_AMT6',\n                                                   'PAY_AMT1', 'PAY_AMT2',\n                                                   'PAY_AMT3', 'PAY_AMT4...\n                               feature_types=None, feature_weights=None,\n                               gamma=None, grow_policy=None,\n                               importance_type=None,\n                               interaction_constraints=None, learning_rate=0.05,\n                               max_bin=None, max_cat_threshold=None,\n                               max_cat_to_onehot=None, max_delta_step=None,\n                               max_depth=4, max_leaves=None,\n                               min_child_weight=10, missing=nan,\n                               monotone_constraints=None, multi_strategy=None,\n                               n_estimators=150, n_jobs=2,\n                               num_parallel_tree=None, ...))])"
+          ],
+          [
+            "xgb",
+            "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 XGBClassifier(base_score=None, booster=None, callbacks=None,\n                               colsample_bylevel=None, colsample_bynode=None,\n                               colsample_bytree=0.9, device=None,\n                               early_stopping_rounds=None,\n                               enable_categorical=False, eval_metric='logloss',\n                               feature_types=None, feature_weights=None,\n                               gamma=None, grow_policy=None,\n                               importance_type=None,\n                               interaction_constraints=None,\n                               learning_rate=0.035, max_bin=None,\n                               max_cat_threshold=None, max_cat_to_onehot=None,\n                               max_delta_step=None, max_depth=4,\n                               max_leaves=None, min_child_weight=20,\n                               missing=nan, monotone_constraints=None,\n                               multi_strategy=None, n_estimators=350, n_jobs=2,\n                               num_parallel_tree=None, ...))])"
+          ],
+          [
+            "lgb",
+            "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 LGBMClassifier(colsample_bytree=0.9, deterministic=True,\n                                force_col_wise=True, learning_rate=0.035,\n                                min_child_samples=60, n_estimators=350,\n                                n_jobs=2, num_leaves=15, random_state=42,\n                                reg_alpha=0.5, reg_lambda=10, subsample=0.9,\n                                subsample_freq=1, verbosity=-1))])"
+          ]
+        ],
+        "model__flatten_transform": true,
+        "model__n_jobs": null,
+        "model__verbose": false,
+        "model__voting": "soft",
+        "model__weights": null,
+        "model__incumbent": "Pipeline(steps=[('features', FeatureBuilder()),\n                ('preprocess',\n                 ColumnTransformer(transformers=[('numeric',\n                                                  Pipeline(steps=[('impute',\n                                                                   SimpleImputer(keep_empty_features=True,\n                                                                                 strategy='median')),\n                                                                  ('scale',\n                                                                   StandardScaler())]),\n                                                  ['LIMIT_BAL', 'AGE',\n                                                   'BILL_AMT1', 'BILL_AMT2',\n                                                   'BILL_AMT3', 'BILL_AMT4',\n                                                   'BILL_AMT5', 'BILL_AMT6',\n                                                   'PAY_AMT1', 'PAY_AMT2',\n                                                   'PAY_AMT3', 'PAY_AMT4...\n                               feature_types=None, feature_weights=None,\n                               gamma=None, grow_policy=None,\n                               importance_type=None,\n                               interaction_constraints=None, learning_rate=0.05,\n                               max_bin=None, max_cat_threshold=None,\n                               max_cat_to_onehot=None, max_delta_step=None,\n                               max_depth=4, max_leaves=None,\n                               min_child_weight=10, missing=nan,\n                               monotone_constraints=None, multi_strategy=None,\n                               n_estimators=150, n_jobs=2,\n                               num_parallel_tree=None, ...))])",
+        "model__xgb": "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 XGBClassifier(base_score=None, booster=None, callbacks=None,\n                               colsample_bylevel=None, colsample_bynode=None,\n                               colsample_bytree=0.9, device=None,\n                               early_stopping_rounds=None,\n                               enable_categorical=False, eval_metric='logloss',\n                               feature_types=None, feature_weights=None,\n                               gamma=None, grow_policy=None,\n                               importance_type=None,\n                               interaction_constraints=None,\n                               learning_rate=0.035, max_bin=None,\n                               max_cat_threshold=None, max_cat_to_onehot=None,\n                               max_delta_step=None, max_depth=4,\n                               max_leaves=None, min_child_weight=20,\n                               missing=nan, monotone_constraints=None,\n                               multi_strategy=None, n_estimators=350, n_jobs=2,\n                               num_parallel_tree=None, ...))])",
+        "model__lgb": "Pipeline(steps=[('features', RepaymentFeatures()),\n                ('model',\n                 LGBMClassifier(colsample_bytree=0.9, deterministic=True,\n                                force_col_wise=True, learning_rate=0.035,\n                                min_child_samples=60, n_estimators=350,\n                                n_jobs=2, num_leaves=15, random_state=42,\n                                reg_alpha=0.5, reg_lambda=10, subsample=0.9,\n                                subsample_freq=1, verbosity=-1))])",
+        "model__incumbent__memory": null,
+        "model__incumbent__steps": [
+          [
+            "features",
+            "FeatureBuilder()"
+          ],
+          [
+            "preprocess",
+            "ColumnTransformer(transformers=[('numeric',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='median')),\n                                                 ('scale', StandardScaler())]),\n                                 ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',\n                                  'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5',\n                                  'BILL_AMT6', 'PAY_AMT1', 'PAY_AMT2',\n                                  'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5',\n                                  'PAY_AMT6', 'AVG_BILL_AMT', 'STD_BILL_AMT',\n                                  'AVG_PAY_AMT', 'PAY_CONSISTENCY',\n                                  'UTILIZATION_RATIO', 'BILL_CHANGE',\n                                  'DELAY_COUNT', 'MAX_PAY_DELAY']),\n                                ('categorical',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='most_frequent')),\n                                                 ('encode',\n                                                  OneHotEncoder(handle_unknown='ignore',\n                                                                sparse_output=False))]),\n                                 ['SEX', 'EDUCATION', 'MARRIAGE', 'PAY_0',\n                                  'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5',\n                                  'PAY_6'])])"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.05, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=10, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=150, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "model__incumbent__transform_input": null,
+        "model__incumbent__verbose": false,
+        "model__incumbent__features": "FeatureBuilder()",
+        "model__incumbent__preprocess": "ColumnTransformer(transformers=[('numeric',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='median')),\n                                                 ('scale', StandardScaler())]),\n                                 ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',\n                                  'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5',\n                                  'BILL_AMT6', 'PAY_AMT1', 'PAY_AMT2',\n                                  'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5',\n                                  'PAY_AMT6', 'AVG_BILL_AMT', 'STD_BILL_AMT',\n                                  'AVG_PAY_AMT', 'PAY_CONSISTENCY',\n                                  'UTILIZATION_RATIO', 'BILL_CHANGE',\n                                  'DELAY_COUNT', 'MAX_PAY_DELAY']),\n                                ('categorical',\n                                 Pipeline(steps=[('impute',\n                                                  SimpleImputer(keep_empty_features=True,\n                                                                strategy='most_frequent')),\n                                                 ('encode',\n                                                  OneHotEncoder(handle_unknown='ignore',\n                                                                sparse_output=False))]),\n                                 ['SEX', 'EDUCATION', 'MARRIAGE', 'PAY_0',\n                                  'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5',\n                                  'PAY_6'])])",
+        "model__incumbent__model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.05, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=10, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=150, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "model__incumbent__preprocess__force_int_remainder_cols": "deprecated",
+        "model__incumbent__preprocess__n_jobs": null,
+        "model__incumbent__preprocess__remainder": "drop",
+        "model__incumbent__preprocess__sparse_threshold": 0.3,
+        "model__incumbent__preprocess__transformer_weights": null,
+        "model__incumbent__preprocess__transformers": [
+          [
+            "numeric",
+            "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True, strategy='median')),\n                ('scale', StandardScaler())])",
+            [
+              "LIMIT_BAL",
+              "AGE",
+              "BILL_AMT1",
+              "BILL_AMT2",
+              "BILL_AMT3",
+              "BILL_AMT4",
+              "BILL_AMT5",
+              "BILL_AMT6",
+              "PAY_AMT1",
+              "PAY_AMT2",
+              "PAY_AMT3",
+              "PAY_AMT4",
+              "PAY_AMT5",
+              "PAY_AMT6",
+              "AVG_BILL_AMT",
+              "STD_BILL_AMT",
+              "AVG_PAY_AMT",
+              "PAY_CONSISTENCY",
+              "UTILIZATION_RATIO",
+              "BILL_CHANGE",
+              "DELAY_COUNT",
+              "MAX_PAY_DELAY"
+            ]
+          ],
+          [
+            "categorical",
+            "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True,\n                               strategy='most_frequent')),\n                ('encode',\n                 OneHotEncoder(handle_unknown='ignore', sparse_output=False))])",
+            [
+              "SEX",
+              "EDUCATION",
+              "MARRIAGE",
+              "PAY_0",
+              "PAY_2",
+              "PAY_3",
+              "PAY_4",
+              "PAY_5",
+              "PAY_6"
+            ]
+          ]
+        ],
+        "model__incumbent__preprocess__verbose": false,
+        "model__incumbent__preprocess__verbose_feature_names_out": true,
+        "model__incumbent__preprocess__numeric": "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True, strategy='median')),\n                ('scale', StandardScaler())])",
+        "model__incumbent__preprocess__categorical": "Pipeline(steps=[('impute',\n                 SimpleImputer(keep_empty_features=True,\n                               strategy='most_frequent')),\n                ('encode',\n                 OneHotEncoder(handle_unknown='ignore', sparse_output=False))])",
+        "model__incumbent__preprocess__numeric__memory": null,
+        "model__incumbent__preprocess__numeric__steps": [
+          [
+            "impute",
+            "SimpleImputer(keep_empty_features=True, strategy='median')"
+          ],
+          [
+            "scale",
+            "StandardScaler()"
+          ]
+        ],
+        "model__incumbent__preprocess__numeric__transform_input": null,
+        "model__incumbent__preprocess__numeric__verbose": false,
+        "model__incumbent__preprocess__numeric__impute": "SimpleImputer(keep_empty_features=True, strategy='median')",
+        "model__incumbent__preprocess__numeric__scale": "StandardScaler()",
+        "model__incumbent__preprocess__numeric__impute__add_indicator": false,
+        "model__incumbent__preprocess__numeric__impute__copy": true,
+        "model__incumbent__preprocess__numeric__impute__fill_value": null,
+        "model__incumbent__preprocess__numeric__impute__keep_empty_features": true,
+        "model__incumbent__preprocess__numeric__impute__missing_values": "NaN",
+        "model__incumbent__preprocess__numeric__impute__strategy": "median",
+        "model__incumbent__preprocess__numeric__scale__copy": true,
+        "model__incumbent__preprocess__numeric__scale__with_mean": true,
+        "model__incumbent__preprocess__numeric__scale__with_std": true,
+        "model__incumbent__preprocess__categorical__memory": null,
+        "model__incumbent__preprocess__categorical__steps": [
+          [
+            "impute",
+            "SimpleImputer(keep_empty_features=True, strategy='most_frequent')"
+          ],
+          [
+            "encode",
+            "OneHotEncoder(handle_unknown='ignore', sparse_output=False)"
+          ]
+        ],
+        "model__incumbent__preprocess__categorical__transform_input": null,
+        "model__incumbent__preprocess__categorical__verbose": false,
+        "model__incumbent__preprocess__categorical__impute": "SimpleImputer(keep_empty_features=True, strategy='most_frequent')",
+        "model__incumbent__preprocess__categorical__encode": "OneHotEncoder(handle_unknown='ignore', sparse_output=False)",
+        "model__incumbent__preprocess__categorical__impute__add_indicator": false,
+        "model__incumbent__preprocess__categorical__impute__copy": true,
+        "model__incumbent__preprocess__categorical__impute__fill_value": null,
+        "model__incumbent__preprocess__categorical__impute__keep_empty_features": true,
+        "model__incumbent__preprocess__categorical__impute__missing_values": "NaN",
+        "model__incumbent__preprocess__categorical__impute__strategy": "most_frequent",
+        "model__incumbent__preprocess__categorical__encode__categories": "auto",
+        "model__incumbent__preprocess__categorical__encode__drop": null,
+        "model__incumbent__preprocess__categorical__encode__dtype": "<class 'numpy.float64'>",
+        "model__incumbent__preprocess__categorical__encode__feature_name_combiner": "concat",
+        "model__incumbent__preprocess__categorical__encode__handle_unknown": "ignore",
+        "model__incumbent__preprocess__categorical__encode__max_categories": null,
+        "model__incumbent__preprocess__categorical__encode__min_frequency": null,
+        "model__incumbent__preprocess__categorical__encode__sparse_output": false,
+        "model__incumbent__model__objective": "binary:logistic",
+        "model__incumbent__model__base_score": null,
+        "model__incumbent__model__booster": null,
+        "model__incumbent__model__callbacks": null,
+        "model__incumbent__model__colsample_bylevel": null,
+        "model__incumbent__model__colsample_bynode": null,
+        "model__incumbent__model__colsample_bytree": 0.9,
+        "model__incumbent__model__device": null,
+        "model__incumbent__model__early_stopping_rounds": null,
+        "model__incumbent__model__enable_categorical": false,
+        "model__incumbent__model__eval_metric": "logloss",
+        "model__incumbent__model__feature_types": null,
+        "model__incumbent__model__feature_weights": null,
+        "model__incumbent__model__gamma": null,
+        "model__incumbent__model__grow_policy": null,
+        "model__incumbent__model__importance_type": null,
+        "model__incumbent__model__interaction_constraints": null,
+        "model__incumbent__model__learning_rate": 0.05,
+        "model__incumbent__model__max_bin": null,
+        "model__incumbent__model__max_cat_threshold": null,
+        "model__incumbent__model__max_cat_to_onehot": null,
+        "model__incumbent__model__max_delta_step": null,
+        "model__incumbent__model__max_depth": 4,
+        "model__incumbent__model__max_leaves": null,
+        "model__incumbent__model__min_child_weight": 10,
+        "model__incumbent__model__missing": "NaN",
+        "model__incumbent__model__monotone_constraints": null,
+        "model__incumbent__model__multi_strategy": null,
+        "model__incumbent__model__n_estimators": 150,
+        "model__incumbent__model__n_jobs": 2,
+        "model__incumbent__model__num_parallel_tree": null,
+        "model__incumbent__model__random_state": 42,
+        "model__incumbent__model__reg_alpha": null,
+        "model__incumbent__model__reg_lambda": null,
+        "model__incumbent__model__sampling_method": null,
+        "model__incumbent__model__scale_pos_weight": null,
+        "model__incumbent__model__subsample": 0.9,
+        "model__incumbent__model__tree_method": null,
+        "model__incumbent__model__validate_parameters": null,
+        "model__incumbent__model__verbosity": null,
+        "model__xgb__memory": null,
+        "model__xgb__steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)"
+          ]
+        ],
+        "model__xgb__transform_input": null,
+        "model__xgb__verbose": false,
+        "model__xgb__features": "RepaymentFeatures()",
+        "model__xgb__model": "XGBClassifier(base_score=None, booster=None, callbacks=None,\n              colsample_bylevel=None, colsample_bynode=None,\n              colsample_bytree=0.9, device=None, early_stopping_rounds=None,\n              enable_categorical=False, eval_metric='logloss',\n              feature_types=None, feature_weights=None, gamma=None,\n              grow_policy=None, importance_type=None,\n              interaction_constraints=None, learning_rate=0.035, max_bin=None,\n              max_cat_threshold=None, max_cat_to_onehot=None,\n              max_delta_step=None, max_depth=4, max_leaves=None,\n              min_child_weight=20, missing=nan, monotone_constraints=None,\n              multi_strategy=None, n_estimators=350, n_jobs=2,\n              num_parallel_tree=None, ...)",
+        "model__xgb__features__enriched": true,
+        "model__xgb__model__objective": "binary:logistic",
+        "model__xgb__model__base_score": null,
+        "model__xgb__model__booster": null,
+        "model__xgb__model__callbacks": null,
+        "model__xgb__model__colsample_bylevel": null,
+        "model__xgb__model__colsample_bynode": null,
+        "model__xgb__model__colsample_bytree": 0.9,
+        "model__xgb__model__device": null,
+        "model__xgb__model__early_stopping_rounds": null,
+        "model__xgb__model__enable_categorical": false,
+        "model__xgb__model__eval_metric": "logloss",
+        "model__xgb__model__feature_types": null,
+        "model__xgb__model__feature_weights": null,
+        "model__xgb__model__gamma": null,
+        "model__xgb__model__grow_policy": null,
+        "model__xgb__model__importance_type": null,
+        "model__xgb__model__interaction_constraints": null,
+        "model__xgb__model__learning_rate": 0.035,
+        "model__xgb__model__max_bin": null,
+        "model__xgb__model__max_cat_threshold": null,
+        "model__xgb__model__max_cat_to_onehot": null,
+        "model__xgb__model__max_delta_step": null,
+        "model__xgb__model__max_depth": 4,
+        "model__xgb__model__max_leaves": null,
+        "model__xgb__model__min_child_weight": 20,
+        "model__xgb__model__missing": "NaN",
+        "model__xgb__model__monotone_constraints": null,
+        "model__xgb__model__multi_strategy": null,
+        "model__xgb__model__n_estimators": 350,
+        "model__xgb__model__n_jobs": 2,
+        "model__xgb__model__num_parallel_tree": null,
+        "model__xgb__model__random_state": 42,
+        "model__xgb__model__reg_alpha": 0.5,
+        "model__xgb__model__reg_lambda": 10,
+        "model__xgb__model__sampling_method": null,
+        "model__xgb__model__scale_pos_weight": null,
+        "model__xgb__model__subsample": 0.9,
+        "model__xgb__model__tree_method": null,
+        "model__xgb__model__validate_parameters": null,
+        "model__xgb__model__verbosity": null,
+        "model__lgb__memory": null,
+        "model__lgb__steps": [
+          [
+            "features",
+            "RepaymentFeatures()"
+          ],
+          [
+            "model",
+            "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=15, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)"
+          ]
+        ],
+        "model__lgb__transform_input": null,
+        "model__lgb__verbose": false,
+        "model__lgb__features": "RepaymentFeatures()",
+        "model__lgb__model": "LGBMClassifier(colsample_bytree=0.9, deterministic=True, force_col_wise=True,\n               learning_rate=0.035, min_child_samples=60, n_estimators=350,\n               n_jobs=2, num_leaves=15, random_state=42, reg_alpha=0.5,\n               reg_lambda=10, subsample=0.9, subsample_freq=1, verbosity=-1)",
+        "model__lgb__features__enriched": true,
+        "model__lgb__model__boosting_type": "gbdt",
+        "model__lgb__model__class_weight": null,
+        "model__lgb__model__colsample_bytree": 0.9,
+        "model__lgb__model__importance_type": "split",
+        "model__lgb__model__learning_rate": 0.035,
+        "model__lgb__model__max_depth": -1,
+        "model__lgb__model__min_child_samples": 60,
+        "model__lgb__model__min_child_weight": 0.001,
+        "model__lgb__model__min_split_gain": 0.0,
+        "model__lgb__model__n_estimators": 350,
+        "model__lgb__model__n_jobs": 2,
+        "model__lgb__model__num_leaves": 15,
+        "model__lgb__model__objective": null,
+        "model__lgb__model__random_state": 42,
+        "model__lgb__model__reg_alpha": 0.5,
+        "model__lgb__model__reg_lambda": 10,
+        "model__lgb__model__subsample": 0.9,
+        "model__lgb__model__subsample_for_bin": 200000,
+        "model__lgb__model__subsample_freq": 1,
+        "model__lgb__model__verbosity": -1,
+        "model__lgb__model__deterministic": true,
+        "model__lgb__model__force_col_wise": true
+      }
+    },
+    "source_sha256": {
+      "improve.py": "9afc4b510ccc177ae7c2514f08e32b440f70c7827cb3e1a77ca41bc5cc9e22ff",
+      "features.py": "b0d352651c12846229123132e9143d66fe7d94e927c1896bcf22f08020fc92bb",
+      "behavior.py": "f370d5f324601cc5deafd1d824413b0f644589104b21abcb1bab38cb729752ed"
+    },
+    "caveat": "Nested CV on previously explored training data is exploratory, not a fresh external holdout."
+  },
+  "metadata": {
+    "model_version": "accuracy-recall-188d232d53-incumbent_behavior_blend",
+    "algorithm": "incumbent_behavior_blend",
+    "calibration": "uncalibrated",
+    "decision_threshold": 0.28500000000000003,
+    "risk_boundaries": [
+      0.2,
+      0.5
+    ],
+    "risk_boundaries_illustrative": true,
+    "primary_metric": "inner-OOF accuracy subject to recall constraints",
+    "threshold_objective": "inner-OOF constrained accuracy",
+    "data_sha256": "f2649c89a3d5f656ca7c7ede8246181f5897632b9b71b106270b405a6e6bbdd6",
+    "seed": 42,
+    "versions": {
+      "scikit-learn": "1.7.2",
+      "numpy": "2.3.5",
+      "pandas": "2.3.3",
+      "scipy": "1.16.3",
+      "joblib": "1.5.2",
+      "shap": "0.50.0",
+      "xgboost": "3.1.2"
+    },
+    "rows": 30000,
+    "positives": 6636,
+    "missing_values": 0,
+    "duplicate_ids": 0,
+    "duplicate_profiles": 56,
+    "split_sizes": {
+      "train": 18000,
+      "validation": 6004,
+      "test": 5996
+    },
+    "split_prevalence": {
+      "train": 0.21805555555555556,
+      "validation": 0.23234510326449034,
+      "test": 0.21947965310206805
+    },
+    "validation": {
+      "accuracy": 0.7859760159893404,
+      "precision": 0.537568306010929,
+      "recall": 0.5641577060931899,
+      "f1": 0.5505421476040574,
+      "macro_f1": 0.7050448195665932,
+      "roc_auc": 0.7830135989193653,
+      "average_precision": 0.5765962392599202,
+      "balanced_accuracy": 0.7086355898658616,
+      "brier": 0.1377290282123378,
+      "false_positive_rate": 0.1468865263614667,
+      "false_negative_rate": 0.43584229390681006,
+      "confusion_matrix": [
+        [
+          3932,
+          677
+        ],
+        [
+          608,
+          787
+        ]
+      ]
+    },
+    "evaluation_status": "exploratory nested CV and reused validation; no new test score",
+    "promotion_eligible": false
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "selected": "behavior_lgb_7",
+      "threshold": 0.3,
+      "fit_rows": 12002,
+      "score_rows": 5998,
+      "inner_candidates": [
+        {
+          "algorithm": "incumbent_xgb",
+          "seconds": 0.7605972000001202,
+          "threshold": 0.28500000000000003,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7902849525079153,
+            "precision": 0.5182679296346414,
+            "recall": 0.5836190476190476,
+            "f1": 0.5490055545601147,
+            "macro_f1": 0.7061914273370513,
+            "roc_auc": 0.7887587156009893,
+            "average_precision": 0.5589346061138325,
+            "balanced_accuracy": 0.7158790556427327,
+            "brier": 0.13209825774328754,
+            "false_positive_rate": 0.15186093633358216,
+            "false_negative_rate": 0.4163809523809524,
+            "confusion_matrix": [
+              [
+                7953,
+                1424
+              ],
+              [
+                1093,
+                1532
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "ordinal_xgb_d3",
+          "seconds": 0.6012895000003482,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.785952341276454,
+            "precision": 0.5093520374081496,
+            "recall": 0.580952380952381,
+            "f1": 0.5428012101797473,
+            "macro_f1": 0.701533865900317,
+            "roc_auc": 0.7810897789423971,
+            "average_precision": 0.5387456263086678,
+            "balanced_accuracy": 0.7121462342001961,
+            "brier": 0.13415355694801154,
+            "false_positive_rate": 0.1566599125519889,
+            "false_negative_rate": 0.41904761904761906,
+            "confusion_matrix": [
+              [
+                7908,
+                1469
+              ],
+              [
+                1100,
+                1525
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "ordinal_xgb_d4",
+          "seconds": 0.711443600000166,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7830361606398933,
+            "precision": 0.5034596375617792,
+            "recall": 0.5820952380952381,
+            "f1": 0.5399293286219081,
+            "macro_f1": 0.698987778135638,
+            "roc_auc": 0.7809757207351321,
+            "average_precision": 0.5408497413757839,
+            "balanced_accuracy": 0.7106914283682972,
+            "brier": 0.13424705538657286,
+            "false_positive_rate": 0.1607123813586435,
+            "false_negative_rate": 0.4179047619047619,
+            "confusion_matrix": [
+              [
+                7870,
+                1507
+              ],
+              [
+                1097,
+                1528
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d3",
+          "seconds": 1.6601239999999962,
+          "threshold": 0.295,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7932011331444759,
+            "precision": 0.5245788930904091,
+            "recall": 0.5813333333333334,
+            "f1": 0.5514998192988797,
+            "macro_f1": 0.7085598717501437,
+            "roc_auc": 0.7911706962832056,
+            "average_precision": 0.5584760622127852,
+            "balanced_accuracy": 0.7169223987771498,
+            "brier": 0.1319547968147791,
+            "false_positive_rate": 0.1474885357790338,
+            "false_negative_rate": 0.4186666666666667,
+            "confusion_matrix": [
+              [
+                7994,
+                1383
+              ],
+              [
+                1099,
+                1526
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d4",
+          "seconds": 2.1502042000001893,
+          "threshold": 0.29,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7887018830194967,
+            "precision": 0.514947934161908,
+            "recall": 0.584,
+            "f1": 0.547304534094966,
+            "macro_f1": 0.7047467133033247,
+            "roc_auc": 0.78967827054038,
+            "average_precision": 0.5581651052516268,
+            "balanced_accuracy": 0.7150030926735629,
+            "brier": 0.13232334140024005,
+            "false_positive_rate": 0.15399381465287407,
+            "false_negative_rate": 0.416,
+            "confusion_matrix": [
+              [
+                7933,
+                1444
+              ],
+              [
+                1092,
+                1533
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d5",
+          "seconds": 2.798083200000292,
+          "threshold": 0.295,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7902849525079153,
+            "precision": 0.5183673469387755,
+            "recall": 0.5805714285714285,
+            "f1": 0.5477088948787062,
+            "macro_f1": 0.7056023730318473,
+            "roc_auc": 0.788273475626787,
+            "average_precision": 0.5585672163925426,
+            "balanced_accuracy": 0.7147818217827815,
+            "brier": 0.13262294982038172,
+            "false_positive_rate": 0.15100778500586542,
+            "false_negative_rate": 0.41942857142857143,
+            "confusion_matrix": [
+              [
+                7961,
+                1416
+              ],
+              [
+                1101,
+                1524
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_7",
+          "seconds": 1.7917249000001902,
+          "threshold": 0.3,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7934510914847526,
+            "precision": 0.5251204404679972,
+            "recall": 0.5813333333333334,
+            "f1": 0.5517989513650334,
+            "macro_f1": 0.7088015489786788,
+            "roc_auc": 0.7914943656464399,
+            "average_precision": 0.5597098796140934,
+            "balanced_accuracy": 0.7170823646510966,
+            "brier": 0.1319329243822665,
+            "false_positive_rate": 0.14716860403114002,
+            "false_negative_rate": 0.4186666666666667,
+            "confusion_matrix": [
+              [
+                7997,
+                1380
+              ],
+              [
+                1099,
+                1526
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_15",
+          "seconds": 2.442423100000269,
+          "threshold": 0.295,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7897850358273621,
+            "precision": 0.5173116089613035,
+            "recall": 0.5805714285714285,
+            "f1": 0.5471190091545504,
+            "macro_f1": 0.7051224623161132,
+            "roc_auc": 0.7889600593143303,
+            "average_precision": 0.5584714931498866,
+            "balanced_accuracy": 0.7144618900348878,
+            "brier": 0.13255152110773824,
+            "false_positive_rate": 0.151647648501653,
+            "false_negative_rate": 0.41942857142857143,
+            "confusion_matrix": [
+              [
+                7955,
+                1422
+              ],
+              [
+                1101,
+                1524
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_31",
+          "seconds": 3.7416739999998754,
+          "threshold": 0.28500000000000003,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7824529245125812,
+            "precision": 0.5022890778286462,
+            "recall": 0.5851428571428572,
+            "f1": 0.540559563610769,
+            "macro_f1": 0.6990227543505512,
+            "roc_auc": 0.7835731196392388,
+            "average_precision": 0.5529353844257225,
+            "balanced_accuracy": 0.7114154085223724,
+            "brier": 0.13418411631840862,
+            "false_positive_rate": 0.1623120400981124,
+            "false_negative_rate": 0.41485714285714287,
+            "confusion_matrix": [
+              [
+                7855,
+                1522
+              ],
+              [
+                1089,
+                1536
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_hist7",
+          "seconds": 3.2777257999996436,
+          "threshold": 0.295,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7897850358273621,
+            "precision": 0.5172647257955315,
+            "recall": 0.5820952380952381,
+            "f1": 0.5477684172790823,
+            "macro_f1": 0.7054174515160676,
+            "roc_auc": 0.7906430221870129,
+            "average_precision": 0.558482344671696,
+            "balanced_accuracy": 0.7150105069648633,
+            "brier": 0.1321591353524912,
+            "false_positive_rate": 0.15207422416551136,
+            "false_negative_rate": 0.4179047619047619,
+            "confusion_matrix": [
+              [
+                7951,
+                1426
+              ],
+              [
+                1097,
+                1528
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_blend",
+          "seconds": 4.442381299999397,
+          "threshold": 0.295,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7907848691884686,
+            "precision": 0.5194406548431105,
+            "recall": 0.5801904761904761,
+            "f1": 0.5481374842540939,
+            "macro_f1": 0.7060088949974324,
+            "roc_auc": 0.7898936303112478,
+            "average_precision": 0.5596792345195141,
+            "balanced_accuracy": 0.7149645992981815,
+            "brier": 0.13225134051599288,
+            "false_positive_rate": 0.15026127759411326,
+            "false_negative_rate": 0.4198095238095238,
+            "confusion_matrix": [
+              [
+                7968,
+                1409
+              ],
+              [
+                1102,
+                1523
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "incumbent_behavior_blend",
+          "seconds": 5.53762899999947,
+          "threshold": 0.29,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7910348275287452,
+            "precision": 0.5198776758409785,
+            "recall": 0.5828571428571429,
+            "f1": 0.5495689655172413,
+            "macro_f1": 0.7067653896798617,
+            "roc_auc": 0.7913290574201313,
+            "average_precision": 0.563025034156621,
+            "balanced_accuracy": 0.7160846447995857,
+            "brier": 0.1316632221159488,
+            "false_positive_rate": 0.15068785325797163,
+            "false_negative_rate": 0.41714285714285715,
+            "confusion_matrix": [
+              [
+                7964,
+                1413
+              ],
+              [
+                1095,
+                1530
+              ]
+            ]
+          }
+        }
+      ],
+      "inner_baseline": {
+        "accuracy": 0.7882852857857023,
+        "precision": 0.513953488372093,
+        "recall": 0.5893333333333334,
+        "f1": 0.5490683229813664,
+        "macro_f1": 0.7053687197137765,
+        "roc_auc": 0.7887587156009893,
+        "average_precision": 0.5589346061138325,
+        "balanced_accuracy": 0.7166566421385661,
+        "brier": 0.13209825774328754,
+        "false_positive_rate": 0.15602004905620134,
+        "false_negative_rate": 0.4106666666666667,
+        "confusion_matrix": [
+          [
+            7914,
+            1463
+          ],
+          [
+            1078,
+            1547
+          ]
+        ]
+      },
+      "baseline": {
+        "accuracy": 0.7852617539179727,
+        "precision": 0.5040376850605652,
+        "recall": 0.5761538461538461,
+        "f1": 0.5376884422110553,
+        "macro_f1": 0.698920225448633,
+        "roc_auc": 0.778605216622458,
+        "average_precision": 0.5443889182811924,
+        "balanced_accuracy": 0.7096392900415889,
+        "brier": 0.13408395383969884,
+        "false_positive_rate": 0.15687526607066837,
+        "false_negative_rate": 0.4238461538461539,
+        "confusion_matrix": [
+          [
+            3961,
+            737
+          ],
+          [
+            551,
+            749
+          ]
+        ]
+      },
+      "challenger": {
+        "accuracy": 0.79243081027009,
+        "precision": 0.5196568977841315,
+        "recall": 0.5592307692307692,
+        "f1": 0.5387180437198963,
+        "macro_f1": 0.7024019389299707,
+        "roc_auc": 0.7795651177260373,
+        "average_precision": 0.5374878256517736,
+        "balanced_accuracy": 0.7080955889576579,
+        "brier": 0.1342262762943865,
+        "false_positive_rate": 0.14303959131545338,
+        "false_negative_rate": 0.44076923076923075,
+        "confusion_matrix": [
+          [
+            4026,
+            672
+          ],
+          [
+            573,
+            727
+          ]
+        ]
+      }
+    },
+    {
+      "fold": 2,
+      "selected": "incumbent_behavior_blend",
+      "threshold": 0.28500000000000003,
+      "fit_rows": 11996,
+      "score_rows": 6004,
+      "inner_candidates": [
+        {
+          "algorithm": "incumbent_xgb",
+          "seconds": 0.7948943999999756,
+          "threshold": 0.28,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7867622540846949,
+            "precision": 0.5088186356073211,
+            "recall": 0.5855993872079663,
+            "f1": 0.5445156695156695,
+            "macro_f1": 0.7026561804260978,
+            "roc_auc": 0.7791555214843474,
+            "average_precision": 0.532071091080168,
+            "balanced_accuracy": 0.7141635721335516,
+            "brier": 0.13490495160170105,
+            "false_positive_rate": 0.1572722429408631,
+            "false_negative_rate": 0.4144006127920337,
+            "confusion_matrix": [
+              [
+                7909,
+                1476
+              ],
+              [
+                1082,
+                1529
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "ordinal_xgb_d3",
+          "seconds": 0.6404013000001214,
+          "threshold": 0.265,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7856785595198399,
+            "precision": 0.5066533599467731,
+            "recall": 0.5833014170815779,
+            "f1": 0.5422823571301406,
+            "macro_f1": 0.7011819948916009,
+            "roc_auc": 0.7763563318748781,
+            "average_precision": 0.5247630218370861,
+            "balanced_accuracy": 0.7126416515349285,
+            "brier": 0.13532209743614063,
+            "false_positive_rate": 0.15801811401172083,
+            "false_negative_rate": 0.41669858291842204,
+            "confusion_matrix": [
+              [
+                7902,
+                1483
+              ],
+              [
+                1088,
+                1523
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "ordinal_xgb_d4",
+          "seconds": 0.7523184000001493,
+          "threshold": 0.265,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7834278092697566,
+            "precision": 0.5021402700032928,
+            "recall": 0.5840674071237074,
+            "f1": 0.5400141643059491,
+            "macro_f1": 0.6991937371900439,
+            "roc_auc": 0.7763196035297572,
+            "average_precision": 0.5256437633930902,
+            "balanced_accuracy": 0.7114796279092166,
+            "brier": 0.13543318550468755,
+            "false_positive_rate": 0.16110815130527437,
+            "false_negative_rate": 0.4159325928762926,
+            "confusion_matrix": [
+              [
+                7873,
+                1512
+              ],
+              [
+                1086,
+                1525
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d3",
+          "seconds": 1.7352149999996982,
+          "threshold": 0.28500000000000003,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7863454484828276,
+            "precision": 0.5080375083724046,
+            "recall": 0.5810034469551896,
+            "f1": 0.5420761122029659,
+            "macro_f1": 0.7013723860824561,
+            "roc_auc": 0.7843274438071622,
+            "average_precision": 0.5347700228470084,
+            "balanced_accuracy": 0.7122385375425921,
+            "brier": 0.13416604554646594,
+            "false_positive_rate": 0.15652637187000532,
+            "false_negative_rate": 0.4189965530448104,
+            "confusion_matrix": [
+              [
+                7916,
+                1469
+              ],
+              [
+                1094,
+                1517
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d4",
+          "seconds": 2.1533212000003914,
+          "threshold": 0.28500000000000003,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7852617539179727,
+            "precision": 0.5058430717863105,
+            "recall": 0.5802374569130602,
+            "f1": 0.540492329646807,
+            "macro_f1": 0.7001928633984063,
+            "roc_auc": 0.7823062013566228,
+            "average_precision": 0.5328951146376132,
+            "balanced_accuracy": 0.7112695009658534,
+            "brier": 0.134914404645437,
+            "false_positive_rate": 0.15769845498135324,
+            "false_negative_rate": 0.4197625430869399,
+            "confusion_matrix": [
+              [
+                7905,
+                1480
+              ],
+              [
+                1096,
+                1515
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d5",
+          "seconds": 2.6898387000001094,
+          "threshold": 0.28,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7800100033344448,
+            "precision": 0.49542184434270764,
+            "recall": 0.5802374569130602,
+            "f1": 0.5344857999647205,
+            "macro_f1": 0.695229583385733,
+            "roc_auc": 0.7814044796746359,
+            "average_precision": 0.5326534197900921,
+            "balanced_accuracy": 0.7079130811469936,
+            "brier": 0.13532304208696247,
+            "false_positive_rate": 0.164411294619073,
+            "false_negative_rate": 0.4197625430869399,
+            "confusion_matrix": [
+              [
+                7842,
+                1543
+              ],
+              [
+                1096,
+                1515
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_7",
+          "seconds": 1.5703023000005487,
+          "threshold": 0.28,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.784594864954985,
+            "precision": 0.5044481054365733,
+            "recall": 0.5863653772500957,
+            "f1": 0.5423308537017357,
+            "macro_f1": 0.7007413562087661,
+            "roc_auc": 0.7848262963524469,
+            "average_precision": 0.5380004811821535,
+            "balanced_accuracy": 0.7130548250129009,
+            "brier": 0.13409013223635013,
+            "false_positive_rate": 0.1602557272242941,
+            "false_negative_rate": 0.41363462274990426,
+            "confusion_matrix": [
+              [
+                7881,
+                1504
+              ],
+              [
+                1080,
+                1531
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_15",
+          "seconds": 2.273172700000032,
+          "threshold": 0.28,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7794264754918306,
+            "precision": 0.4943384018117114,
+            "recall": 0.5852163921869016,
+            "f1": 0.5359522974394949,
+            "macro_f1": 0.6956415396437496,
+            "roc_auc": 0.7806813189638445,
+            "average_precision": 0.5326675144465154,
+            "balanced_accuracy": 0.709337018682689,
+            "brier": 0.135316358920285,
+            "false_positive_rate": 0.1665423548215237,
+            "false_negative_rate": 0.4147836078130984,
+            "confusion_matrix": [
+              [
+                7822,
+                1563
+              ],
+              [
+                1083,
+                1528
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_31",
+          "seconds": 3.3783686999995552,
+          "threshold": 0.275,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7720906968989664,
+            "precision": 0.48056872037914694,
+            "recall": 0.5825354270394485,
+            "f1": 0.5266620498614959,
+            "macro_f1": 0.6882871074955261,
+            "roc_auc": 0.7740811741317369,
+            "average_precision": 0.5242987283801377,
+            "balanced_accuracy": 0.7036811391989997,
+            "brier": 0.1373209571215791,
+            "false_positive_rate": 0.17517314864144912,
+            "false_negative_rate": 0.4174645729605515,
+            "confusion_matrix": [
+              [
+                7741,
+                1644
+              ],
+              [
+                1090,
+                1521
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_hist7",
+          "seconds": 1.7879631000005247,
+          "threshold": 0.28,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7842614204734911,
+            "precision": 0.5037841395195788,
+            "recall": 0.5863653772500957,
+            "f1": 0.5419469026548672,
+            "macro_f1": 0.7004249833304868,
+            "roc_auc": 0.7839107607317675,
+            "average_precision": 0.5362835452338863,
+            "balanced_accuracy": 0.7128417189926557,
+            "brier": 0.13422061103748886,
+            "false_positive_rate": 0.16068193926478422,
+            "false_negative_rate": 0.41363462274990426,
+            "confusion_matrix": [
+              [
+                7877,
+                1508
+              ],
+              [
+                1080,
+                1531
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_blend",
+          "seconds": 4.479488900000433,
+          "threshold": 0.28,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7804268089363121,
+            "precision": 0.4962504075643952,
+            "recall": 0.5829184220605133,
+            "f1": 0.5361042620641071,
+            "macro_f1": 0.6961399327138271,
+            "roc_auc": 0.7821278036225167,
+            "average_precision": 0.5341657857463379,
+            "balanced_accuracy": 0.7091470107105976,
+            "brier": 0.13492615840509892,
+            "false_positive_rate": 0.16462440063931805,
+            "false_negative_rate": 0.4170815779394868,
+            "confusion_matrix": [
+              [
+                7840,
+                1545
+              ],
+              [
+                1089,
+                1522
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "incumbent_behavior_blend",
+          "seconds": 5.223394499999813,
+          "threshold": 0.28500000000000003,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7870123374458152,
+            "precision": 0.5094022834116857,
+            "recall": 0.5810034469551896,
+            "f1": 0.5428520307747361,
+            "macro_f1": 0.7020079857182924,
+            "roc_auc": 0.7828138278954638,
+            "average_precision": 0.5367534407450711,
+            "balanced_accuracy": 0.7126647495830822,
+            "brier": 0.13440100486672177,
+            "false_positive_rate": 0.15567394778902505,
+            "false_negative_rate": 0.4189965530448104,
+            "confusion_matrix": [
+              [
+                7924,
+                1461
+              ],
+              [
+                1094,
+                1517
+              ]
+            ]
+          }
+        }
+      ],
+      "inner_baseline": {
+        "accuracy": 0.7867622540846949,
+        "precision": 0.5088186356073211,
+        "recall": 0.5855993872079663,
+        "f1": 0.5445156695156695,
+        "macro_f1": 0.7026561804260978,
+        "roc_auc": 0.7791555214843474,
+        "average_precision": 0.532071091080168,
+        "balanced_accuracy": 0.7141635721335516,
+        "brier": 0.13490495160170105,
+        "false_positive_rate": 0.1572722429408631,
+        "false_negative_rate": 0.4144006127920337,
+        "confusion_matrix": [
+          [
+            7909,
+            1476
+          ],
+          [
+            1082,
+            1529
+          ]
+        ]
+      },
+      "baseline": {
+        "accuracy": 0.7846435709526982,
+        "precision": 0.5068403908794789,
+        "recall": 0.5920852359208524,
+        "f1": 0.5461565461565462,
+        "macro_f1": 0.7024919645293048,
+        "roc_auc": 0.7889190706610457,
+        "average_precision": 0.5613746177519975,
+        "balanced_accuracy": 0.7153389932269507,
+        "brier": 0.1317392831222207,
+        "false_positive_rate": 0.16140724946695095,
+        "false_negative_rate": 0.4079147640791476,
+        "confusion_matrix": [
+          [
+            3933,
+            757
+          ],
+          [
+            536,
+            778
+          ]
+        ]
+      },
+      "challenger": {
+        "accuracy": 0.7869753497668222,
+        "precision": 0.5115817339510258,
+        "recall": 0.5882800608828006,
+        "f1": 0.5472566371681415,
+        "macro_f1": 0.7039887672391943,
+        "roc_auc": 0.7900681686155003,
+        "average_precision": 0.5657273479286262,
+        "balanced_accuracy": 0.7154619920618694,
+        "brier": 0.13152944329011287,
+        "false_positive_rate": 0.15735607675906182,
+        "false_negative_rate": 0.4117199391171994,
+        "confusion_matrix": [
+          [
+            3952,
+            738
+          ],
+          [
+            541,
+            773
+          ]
+        ]
+      }
+    },
+    {
+      "fold": 3,
+      "selected": "behavior_lgb_7",
+      "threshold": 0.27,
+      "fit_rows": 12002,
+      "score_rows": 5998,
+      "inner_candidates": [
+        {
+          "algorithm": "incumbent_xgb",
+          "seconds": 0.7998483000001215,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7807865355774037,
+            "precision": 0.4972176759410802,
+            "recall": 0.5811017597551645,
+            "f1": 0.5358969835949903,
+            "macro_f1": 0.6962004688904867,
+            "roc_auc": 0.7799645088929885,
+            "average_precision": 0.5465935820279768,
+            "balanced_accuracy": 0.7087443183096231,
+            "brier": 0.1335347583240712,
+            "false_positive_rate": 0.1636131231359182,
+            "false_negative_rate": 0.4188982402448355,
+            "confusion_matrix": [
+              [
+                7852,
+                1536
+              ],
+              [
+                1095,
+                1519
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "ordinal_xgb_d3",
+          "seconds": 0.6126450000001569,
+          "threshold": 0.25,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7807032161306449,
+            "precision": 0.4970948999354422,
+            "recall": 0.5891354246365723,
+            "f1": 0.5392156862745098,
+            "macro_f1": 0.6976638238938698,
+            "roc_auc": 0.7755858216825334,
+            "average_precision": 0.5394508840065037,
+            "balanced_accuracy": 0.7115894421862026,
+            "brier": 0.1341673887923665,
+            "false_positive_rate": 0.16595654026416704,
+            "false_negative_rate": 0.4108645753634277,
+            "confusion_matrix": [
+              [
+                7830,
+                1558
+              ],
+              [
+                1074,
+                1540
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "ordinal_xgb_d4",
+          "seconds": 0.7368163000001005,
+          "threshold": 0.255,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7788701883019497,
+            "precision": 0.49351491569390404,
+            "recall": 0.5822494261667942,
+            "f1": 0.5342225342225342,
+            "macro_f1": 0.6946213730874498,
+            "roc_auc": 0.774701009346611,
+            "average_precision": 0.535894852623833,
+            "balanced_accuracy": 0.7079334050305637,
+            "brier": 0.13462305156441534,
+            "false_positive_rate": 0.16638261610566682,
+            "false_negative_rate": 0.4177505738332058,
+            "confusion_matrix": [
+              [
+                7826,
+                1562
+              ],
+              [
+                1092,
+                1522
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d3",
+          "seconds": 1.7597765999998956,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7799533411098151,
+            "precision": 0.49560117302052786,
+            "recall": 0.581866870696251,
+            "f1": 0.5352806616223825,
+            "macro_f1": 0.6955645707544258,
+            "roc_auc": 0.7808572266146465,
+            "average_precision": 0.5452552413279811,
+            "balanced_accuracy": 0.7084877600179167,
+            "brier": 0.13356912029556467,
+            "false_positive_rate": 0.16489135066041755,
+            "false_negative_rate": 0.418133129303749,
+            "confusion_matrix": [
+              [
+                7840,
+                1548
+              ],
+              [
+                1093,
+                1521
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d4",
+          "seconds": 2.173826399999598,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7777870354940843,
+            "precision": 0.4914156138645935,
+            "recall": 0.5803366488140781,
+            "f1": 0.5321873355551657,
+            "macro_f1": 0.6932367590740917,
+            "roc_auc": 0.7778602093085346,
+            "average_precision": 0.543522755401374,
+            "balanced_accuracy": 0.7065509405127058,
+            "brier": 0.13425332576491164,
+            "false_positive_rate": 0.1672347677886664,
+            "false_negative_rate": 0.41966335118592196,
+            "confusion_matrix": [
+              [
+                7818,
+                1570
+              ],
+              [
+                1097,
+                1517
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_xgb_d5",
+          "seconds": 2.6145528999995804,
+          "threshold": 0.265,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7730378270288285,
+            "precision": 0.4825949367088608,
+            "recall": 0.5833970925784239,
+            "f1": 0.5282299965361967,
+            "macro_f1": 0.6894029851029859,
+            "roc_auc": 0.7760801527874716,
+            "average_precision": 0.5406911836192627,
+            "balanced_accuracy": 0.7046192961826929,
+            "brier": 0.13475051705468832,
+            "false_positive_rate": 0.17415850021303791,
+            "false_negative_rate": 0.41660290742157613,
+            "confusion_matrix": [
+              [
+                7753,
+                1635
+              ],
+              [
+                1089,
+                1525
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_7",
+          "seconds": 1.5235216999999466,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7822029661723047,
+            "precision": 0.5,
+            "recall": 0.5833970925784239,
+            "f1": 0.5384887005649718,
+            "macro_f1": 0.6979793557350487,
+            "roc_auc": 0.7813692633386676,
+            "average_precision": 0.5465058742566011,
+            "balanced_accuracy": 0.7104778390033151,
+            "brier": 0.1334467653364106,
+            "false_positive_rate": 0.16244141457179379,
+            "false_negative_rate": 0.41660290742157613,
+            "confusion_matrix": [
+              [
+                7863,
+                1525
+              ],
+              [
+                1089,
+                1525
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_15",
+          "seconds": 2.2117092000007688,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7757873687718714,
+            "precision": 0.48768,
+            "recall": 0.5830145371078806,
+            "f1": 0.531102979613173,
+            "macro_f1": 0.6918860093795403,
+            "roc_auc": 0.7776673627209393,
+            "average_precision": 0.5440516530361493,
+            "balanced_accuracy": 0.7062388407737954,
+            "brier": 0.13421763761584427,
+            "false_positive_rate": 0.17053685556028972,
+            "false_negative_rate": 0.41698546289211935,
+            "confusion_matrix": [
+              [
+                7787,
+                1601
+              ],
+              [
+                1090,
+                1524
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_lgb_31",
+          "seconds": 3.293689500000255,
+          "threshold": 0.265,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.77070488251958,
+            "precision": 0.4782745591939547,
+            "recall": 0.5811017597551645,
+            "f1": 0.5246977547495683,
+            "macro_f1": 0.6868025942958338,
+            "roc_auc": 0.7721017266666428,
+            "average_precision": 0.5390845959171565,
+            "balanced_accuracy": 0.702299921206939,
+            "brier": 0.13592108412367812,
+            "false_positive_rate": 0.17650191734128676,
+            "false_negative_rate": 0.4188982402448355,
+            "confusion_matrix": [
+              [
+                7731,
+                1657
+              ],
+              [
+                1095,
+                1519
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_hist7",
+          "seconds": 1.6229149000000689,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7818696883852692,
+            "precision": 0.49934597776324396,
+            "recall": 0.5841622035195103,
+            "f1": 0.5384344146685472,
+            "macro_f1": 0.6978120142293205,
+            "roc_auc": 0.781569261447895,
+            "average_precision": 0.5448810526915764,
+            "balanced_accuracy": 0.7105408375927335,
+            "brier": 0.13338696208345532,
+            "false_positive_rate": 0.16308052833404346,
+            "false_negative_rate": 0.4158377964804897,
+            "confusion_matrix": [
+              [
+                7857,
+                1531
+              ],
+              [
+                1087,
+                1527
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "behavior_blend",
+          "seconds": 4.276841500000046,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7768705215797367,
+            "precision": 0.4896907216494845,
+            "recall": 0.5814843152257078,
+            "f1": 0.5316544246239944,
+            "macro_f1": 0.6926017939591589,
+            "roc_auc": 0.778362914417435,
+            "average_precision": 0.545143016096436,
+            "balanced_accuracy": 0.706379140995896,
+            "brier": 0.1340468843945606,
+            "false_positive_rate": 0.16872603323391563,
+            "false_negative_rate": 0.4185156847742923,
+            "confusion_matrix": [
+              [
+                7804,
+                1584
+              ],
+              [
+                1094,
+                1520
+              ]
+            ]
+          }
+        },
+        {
+          "algorithm": "incumbent_behavior_blend",
+          "seconds": 4.966707900000074,
+          "threshold": 0.27,
+          "recall_floor": 0.58,
+          "metrics": {
+            "accuracy": 0.7799533411098151,
+            "precision": 0.4956268221574344,
+            "recall": 0.58530986993114,
+            "f1": 0.5367479389580775,
+            "macro_f1": 0.696227326852147,
+            "roc_auc": 0.7808134821219295,
+            "average_precision": 0.5493956269741502,
+            "balanced_accuracy": 0.7097299243136739,
+            "brier": 0.13334130147499815,
+            "false_positive_rate": 0.16585002130379206,
+            "false_negative_rate": 0.41469013006885996,
+            "confusion_matrix": [
+              [
+                7831,
+                1557
+              ],
+              [
+                1084,
+                1530
+              ]
+            ]
+          }
+        }
+      ],
+      "inner_baseline": {
+        "accuracy": 0.786535577403766,
+        "precision": 0.5088797814207651,
+        "recall": 0.5700076511094109,
+        "f1": 0.5377120173222664,
+        "macro_f1": 0.6994702433052671,
+        "roc_auc": 0.7799645088929885,
+        "average_precision": 0.5465935820279768,
+        "balanced_accuracy": 0.7084166930451188,
+        "brier": 0.1335347583240712,
+        "false_positive_rate": 0.15317426501917342,
+        "false_negative_rate": 0.4299923488905891,
+        "confusion_matrix": [
+          [
+            7950,
+            1438
+          ],
+          [
+            1124,
+            1490
+          ]
+        ]
+      },
+      "baseline": {
+        "accuracy": 0.7922640880293431,
+        "precision": 0.521974306964165,
+        "recall": 0.5888634630053394,
+        "f1": 0.5534050179211469,
+        "macro_f1": 0.7090292523887725,
+        "roc_auc": 0.794985871465242,
+        "average_precision": 0.558960625569056,
+        "balanced_accuracy": 0.7190103532223198,
+        "brier": 0.13224780159169278,
+        "false_positive_rate": 0.15084275656069981,
+        "false_negative_rate": 0.4111365369946606,
+        "confusion_matrix": [
+          [
+            3980,
+            707
+          ],
+          [
+            539,
+            772
+          ]
+        ]
+      },
+      "challenger": {
+        "accuracy": 0.7917639213071024,
+        "precision": 0.5201560468140443,
+        "recall": 0.6102212051868803,
+        "f1": 0.5616005616005616,
+        "macro_f1": 0.712526529843683,
+        "roc_auc": 0.7967988286408826,
+        "average_precision": 0.5500190129689375,
+        "balanced_accuracy": 0.7263822048976859,
+        "brier": 0.13246826522422311,
+        "false_positive_rate": 0.15745679539150842,
+        "false_negative_rate": 0.3897787948131198,
+        "confusion_matrix": [
+          [
+            3949,
+            738
+          ],
+          [
+            511,
+            800
+          ]
+        ]
+      }
+    }
+  ],
+  "nested_baseline": {
+    "accuracy": 0.7873888888888889,
+    "precision": 0.5108888888888888,
+    "recall": 0.5857324840764331,
+    "f1": 0.5457566765578635,
+    "macro_f1": 0.703485772549104,
+    "roc_auc": 0.787184396601464,
+    "average_precision": 0.553978991662042,
+    "balanced_accuracy": 0.7146779649511827,
+    "brier": 0.13269002916351666,
+    "false_positive_rate": 0.15637655417406748,
+    "false_negative_rate": 0.41426751592356686,
+    "confusion_matrix": [
+      [
+        11874,
+        2201
+      ],
+      [
+        1626,
+        2299
+      ]
+    ]
+  },
+  "nested_challenger": {
+    "accuracy": 0.7903888888888889,
+    "precision": 0.5170863309352518,
+    "recall": 0.5859872611464968,
+    "f1": 0.5493849277439389,
+    "macro_f1": 0.7064078147967894,
+    "roc_auc": 0.7884962224660882,
+    "average_precision": 0.5498796422513818,
+    "balanced_accuracy": 0.7166881243565522,
+    "brier": 0.13274092430791437,
+    "false_positive_rate": 0.15261101243339253,
+    "false_negative_rate": 0.4140127388535032,
+    "confusion_matrix": [
+      [
+        11927,
+        2148
+      ],
+      [
+        1625,
+        2300
+      ]
+    ]
+  },
+  "paired_intervals_95": {
+    "accuracy_delta": [
+      0.0006668500524847098,
+      0.005473831911483885
+    ],
+    "recall_delta": [
+      -0.0056661808282541136,
+      0.0059878101549579255
+    ]
+  },
+  "final_inner_candidates": [
+    {
+      "algorithm": "incumbent_xgb",
+      "seconds": 1.1975955999996586,
+      "threshold": 0.28,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.79,
+        "precision": 0.516303125702721,
+        "recall": 0.584968152866242,
+        "f1": 0.5484949832775919,
+        "macro_f1": 0.7058386310625689,
+        "roc_auc": 0.7861461098980665,
+        "average_precision": 0.5511686746047664,
+        "balanced_accuracy": 0.7160719982803679,
+        "brier": 0.13282513929951914,
+        "false_positive_rate": 0.15282415630550622,
+        "false_negative_rate": 0.41503184713375796,
+        "confusion_matrix": [
+          [
+            11924,
+            2151
+          ],
+          [
+            1629,
+            2296
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "ordinal_xgb_d3",
+      "seconds": 0.8259425999995074,
+      "threshold": 0.26,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7855555555555556,
+        "precision": 0.5071664829106945,
+        "recall": 0.5859872611464968,
+        "f1": 0.5437352245862884,
+        "macro_f1": 0.7017877284877703,
+        "roc_auc": 0.7808187349390774,
+        "average_precision": 0.5380937312488199,
+        "balanced_accuracy": 0.7135975382109039,
+        "brier": 0.13380453248552118,
+        "false_positive_rate": 0.15879218472468917,
+        "false_negative_rate": 0.4140127388535032,
+        "confusion_matrix": [
+          [
+            11840,
+            2235
+          ],
+          [
+            1625,
+            2300
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "ordinal_xgb_d4",
+      "seconds": 0.9766540000000532,
+      "threshold": 0.27,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7897222222222222,
+        "precision": 0.5157657657657657,
+        "recall": 0.5834394904458599,
+        "f1": 0.5475194261805141,
+        "macro_f1": 0.7052777156232768,
+        "roc_auc": 0.7813163421615322,
+        "average_precision": 0.5382176572552473,
+        "balanced_accuracy": 0.7153431910488625,
+        "brier": 0.13391896493306876,
+        "false_positive_rate": 0.152753108348135,
+        "false_negative_rate": 0.41656050955414015,
+        "confusion_matrix": [
+          [
+            11925,
+            2150
+          ],
+          [
+            1635,
+            2290
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_xgb_d3",
+      "seconds": 2.2272515000004205,
+      "threshold": 0.29,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7903333333333333,
+        "precision": 0.5170775842569555,
+        "recall": 0.5824203821656051,
+        "f1": 0.5478073328540618,
+        "macro_f1": 0.7056676065441929,
+        "roc_auc": 0.7865473453179622,
+        "average_precision": 0.546344474429981,
+        "balanced_accuracy": 0.7153664965890192,
+        "brier": 0.13314140822874326,
+        "false_positive_rate": 0.15168738898756662,
+        "false_negative_rate": 0.4175796178343949,
+        "confusion_matrix": [
+          [
+            11940,
+            2135
+          ],
+          [
+            1639,
+            2286
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_xgb_d4",
+      "seconds": 2.8487719999993715,
+      "threshold": 0.28,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7857222222222222,
+        "precision": 0.507498897220997,
+        "recall": 0.5862420382165605,
+        "f1": 0.5440359380541435,
+        "macro_f1": 0.7019950940406878,
+        "roc_auc": 0.785563317532328,
+        "average_precision": 0.5435890966525577,
+        "balanced_accuracy": 0.7137959747033069,
+        "brier": 0.1335314565405047,
+        "false_positive_rate": 0.15865008880994672,
+        "false_negative_rate": 0.4137579617834395,
+        "confusion_matrix": [
+          [
+            11842,
+            2233
+          ],
+          [
+            1624,
+            2301
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_xgb_d5",
+      "seconds": 3.524982799999634,
+      "threshold": 0.28,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7845,
+        "precision": 0.5050884955752213,
+        "recall": 0.5816560509554141,
+        "f1": 0.5406749555950267,
+        "macro_f1": 0.6999509780696962,
+        "roc_auc": 0.7848890588408323,
+        "average_precision": 0.5438060701243905,
+        "balanced_accuracy": 0.7113608851579912,
+        "brier": 0.13388631760824266,
+        "false_positive_rate": 0.15893428063943163,
+        "false_negative_rate": 0.418343949044586,
+        "confusion_matrix": [
+          [
+            11838,
+            2237
+          ],
+          [
+            1642,
+            2283
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_lgb_7",
+      "seconds": 2.1829650999998194,
+      "threshold": 0.29,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7907222222222222,
+        "precision": 0.5179463880054521,
+        "recall": 0.5808917197452229,
+        "f1": 0.5476161883031103,
+        "macro_f1": 0.7057453615240843,
+        "roc_auc": 0.7876536027423606,
+        "average_precision": 0.547023219940301,
+        "balanced_accuracy": 0.7150639771017411,
+        "brier": 0.13294432661552286,
+        "false_positive_rate": 0.15076376554174067,
+        "false_negative_rate": 0.4191082802547771,
+        "confusion_matrix": [
+          [
+            11953,
+            2122
+          ],
+          [
+            1645,
+            2280
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_lgb_15",
+      "seconds": 3.1614197999997486,
+      "threshold": 0.28,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7851666666666667,
+        "precision": 0.5064102564102564,
+        "recall": 0.5836942675159236,
+        "f1": 0.5423126997277784,
+        "macro_f1": 0.7009774089905997,
+        "roc_auc": 0.7855198560939463,
+        "average_precision": 0.5452769827535824,
+        "balanced_accuracy": 0.7125220893529884,
+        "brier": 0.13365168806370692,
+        "false_positive_rate": 0.15865008880994672,
+        "false_negative_rate": 0.41630573248407643,
+        "confusion_matrix": [
+          [
+            11842,
+            2233
+          ],
+          [
+            1634,
+            2291
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_lgb_31",
+      "seconds": 4.323624800000289,
+      "threshold": 0.275,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7789444444444444,
+        "precision": 0.4941735002157963,
+        "recall": 0.5834394904458599,
+        "f1": 0.5351092417338474,
+        "macro_f1": 0.6950536187168563,
+        "roc_auc": 0.7810342319919449,
+        "average_precision": 0.5397192238316744,
+        "balanced_accuracy": 0.7084515391838535,
+        "brier": 0.13506367073426676,
+        "false_positive_rate": 0.16653641207815276,
+        "false_negative_rate": 0.41656050955414015,
+        "confusion_matrix": [
+          [
+            11731,
+            2344
+          ],
+          [
+            1635,
+            2290
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_hist7",
+      "seconds": 1.98754099999951,
+      "threshold": 0.29,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7903888888888889,
+        "precision": 0.517171260732038,
+        "recall": 0.5831847133757961,
+        "f1": 0.548197820620285,
+        "macro_f1": 0.7058685945663543,
+        "roc_auc": 0.7867643447862339,
+        "average_precision": 0.5467357251105888,
+        "balanced_accuracy": 0.7156776142367436,
+        "brier": 0.133043255505132,
+        "false_positive_rate": 0.15182948490230905,
+        "false_negative_rate": 0.4168152866242038,
+        "confusion_matrix": [
+          [
+            11938,
+            2137
+          ],
+          [
+            1636,
+            2289
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "behavior_blend",
+      "seconds": 5.415012499999648,
+      "threshold": 0.28,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7860555555555555,
+        "precision": 0.5081894643647632,
+        "recall": 0.584968152866242,
+        "f1": 0.5438825062181689,
+        "macro_f1": 0.7020678996961585,
+        "roc_auc": 0.7859881028611511,
+        "average_precision": 0.5454484462763491,
+        "balanced_accuracy": 0.7135497957936894,
+        "brier": 0.13345087058224306,
+        "false_positive_rate": 0.15786856127886323,
+        "false_negative_rate": 0.41503184713375796,
+        "confusion_matrix": [
+          [
+            11853,
+            2222
+          ],
+          [
+            1629,
+            2296
+          ]
+        ]
+      }
+    },
+    {
+      "algorithm": "incumbent_behavior_blend",
+      "seconds": 6.5320481999997355,
+      "threshold": 0.28500000000000003,
+      "recall_floor": 0.58,
+      "metrics": {
+        "accuracy": 0.7917777777777778,
+        "precision": 0.520136518771331,
+        "recall": 0.5824203821656051,
+        "f1": 0.5495192307692308,
+        "macro_f1": 0.7070573032458871,
+        "roc_auc": 0.7876220067653946,
+        "average_precision": 0.5501438207284052,
+        "balanced_accuracy": 0.7162901200348452,
+        "brier": 0.13280248494618418,
+        "false_positive_rate": 0.14984014209591473,
+        "false_negative_rate": 0.4175796178343949,
+        "confusion_matrix": [
+          [
+            11966,
+            2109
+          ],
+          [
+            1639,
+            2286
+          ]
+        ]
+      }
+    }
+  ],
+  "final_inner_baseline": {
+    "accuracy": 0.79,
+    "precision": 0.516303125702721,
+    "recall": 0.584968152866242,
+    "f1": 0.5484949832775919,
+    "macro_f1": 0.7058386310625689,
+    "roc_auc": 0.7861461098980665,
+    "average_precision": 0.5511686746047664,
+    "balanced_accuracy": 0.7160719982803679,
+    "brier": 0.13282513929951914,
+    "false_positive_rate": 0.15282415630550622,
+    "false_negative_rate": 0.41503184713375796,
+    "confusion_matrix": [
+      [
+        11924,
+        2151
+      ],
+      [
+        1629,
+        2296
+      ]
+    ]
+  },
+  "validation_baseline": {
+    "accuracy": 0.7859760159893404,
+    "precision": 0.5373641304347826,
+    "recall": 0.5670250896057347,
+    "f1": 0.5517963027554935,
+    "macro_f1": 0.7056104366856999,
+    "roc_auc": 0.7802607645474687,
+    "average_precision": 0.5746776368133413,
+    "balanced_accuracy": 0.7096353480139761,
+    "brier": 0.13804158830920885,
+    "false_positive_rate": 0.1477543935777826,
+    "false_negative_rate": 0.4329749103942652,
+    "confusion_matrix": [
+      [
+        3928,
+        681
+      ],
+      [
+        604,
+        791
+      ]
+    ]
+  },
+  "validation_challenger": {
+    "accuracy": 0.7859760159893404,
+    "precision": 0.537568306010929,
+    "recall": 0.5641577060931899,
+    "f1": 0.5505421476040574,
+    "macro_f1": 0.7050448195665932,
+    "roc_auc": 0.7830135989193653,
+    "average_precision": 0.5765962392599202,
+    "balanced_accuracy": 0.7086355898658616,
+    "brier": 0.1377290282123378,
+    "false_positive_rate": 0.1468865263614667,
+    "false_negative_rate": 0.43584229390681006,
+    "confusion_matrix": [
+      [
+        3932,
+        677
+      ],
+      [
+        608,
+        787
+      ]
+    ]
+  },
+  "promotion_eligible": false,
+  "original_test_evaluated": false,
+  "default_model_changed": false
+}

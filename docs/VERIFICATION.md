@@ -1,5 +1,13 @@
 # Verification record — 15 October 2026
 
+## Behavioral features and full-development candidate
+- Full Python suite: **60 passed**. The four existing CatBoost/sklearn deprecation warnings remain; LightGBM and the new candidate tests pass.
+- Twelve behavioral/ordinal/ensemble candidates ran through grouped nested CV on the original training partition. Nested accuracy increased 78.74% → 79.04%, with recall 58.57% → 58.60%; the reused-validation accuracy tied the baseline. [Report](../reports/behavior-003/REPORT.md).
+- A separate frozen protocol compared the same candidate family with five-fold grouped OOF selection on all 24,004 non-test records. LightGBM with behavioral features was selected and refitted before the one-time test audit.
+- On the same original 5,996 test records: accuracy 79.37% → 79.47%, default recall 59.04% → 58.51%. The accuracy-difference interval spans zero; this is a small observed gain, not an established generalization gain. No post-audit tuning occurred. The candidate did not meet the +0.5-point adoption margin; the default model is unchanged.
+- Saved-candidate probability, Flask API probability and SHAP reconstruction agree. Original artifact/report hashes remain unchanged. Frozen source hashes are preserved and verified. A separate serving copy corrects inherited descriptive metadata without altering model weights or threshold.
+- New tests cover row-local features, temporal direction, zero denominators, all twelve pipeline variants, exclusion of reserved test rows from fitting/development scoring, immutable selection, and rejection of repeat audits. [Frozen audit and verification](../reports/full-development-004/REPORT.md).
+
 ## Accuracy and recall follow-up
 - Python suite: **45 passed**, including grouped nested-CV isolation, recall constraints, rejection of excessive recall loss, native categorical input parity, saved-model round trips and CatBoost dependency mismatch rejection.
 - Production frontend build and **2 browser tests passed** with the real served baseline model. Browser assertions now verify the prominent **79.37% accuracy / 59.04% default recall** summary. Desktop and mobile screenshots were refreshed.

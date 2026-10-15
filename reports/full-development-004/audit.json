@@ -1,0 +1,172 @@
+{
+  "metadata": {
+    "model_version": "full-development-17b93ffb80-behavior_lgb_7",
+    "algorithm": "behavior_lgb_7",
+    "calibration": "uncalibrated",
+    "decision_threshold": 0.28400000000000003,
+    "risk_boundaries": [
+      0.2,
+      0.5
+    ],
+    "risk_boundaries_illustrative": true,
+    "primary_metric": "grouped development OOF constrained accuracy",
+    "threshold_objective": "grouped development OOF constrained accuracy",
+    "data_sha256": "f2649c89a3d5f656ca7c7ede8246181f5897632b9b71b106270b405a6e6bbdd6",
+    "seed": 42,
+    "versions": {
+      "scikit-learn": "1.7.2",
+      "numpy": "2.3.5",
+      "pandas": "2.3.3",
+      "scipy": "1.16.3",
+      "joblib": "1.5.2",
+      "shap": "0.50.0",
+      "xgboost": "3.1.2"
+    },
+    "rows": 30000,
+    "positives": 6636,
+    "missing_values": 0,
+    "duplicate_ids": 0,
+    "duplicate_profiles": 56,
+    "split_sizes": {
+      "train": 24004,
+      "validation": 0,
+      "test": 5996
+    },
+    "split_prevalence": {
+      "train": 0.21805555555555556,
+      "validation": 0.23234510326449034,
+      "test": 0.21947965310206805
+    },
+    "selection_scope": "five-fold development OOF",
+    "evaluation_status": "one frozen audit on the previously reported test benchmark",
+    "development_oof": {
+      "accuracy": 0.7898266955507416,
+      "precision": 0.5233169408173648,
+      "recall": 0.5800751879699249,
+      "f1": 0.550236248551306,
+      "macro_f1": 0.7065551605073401,
+      "roc_auc": 0.786666841718941,
+      "average_precision": 0.557029034424594,
+      "balanced_accuracy": 0.7148128027197087,
+      "brier": 0.13388289422465052,
+      "false_positive_rate": 0.1504495825305074,
+      "false_negative_rate": 0.4199248120300752,
+      "confusion_matrix": [
+        [
+          15873,
+          2811
+        ],
+        [
+          2234,
+          3086
+        ]
+      ]
+    },
+    "development_recall_target": 0.58
+  },
+  "baseline": {
+    "accuracy": 0.7936957971981321,
+    "precision": 0.5267796610169492,
+    "recall": 0.5904255319148937,
+    "f1": 0.5567896811178789,
+    "macro_f1": 0.7111738863148356,
+    "roc_auc": 0.7930303074584989,
+    "average_precision": 0.5707654784199563,
+    "balanced_accuracy": 0.7206401163847973,
+    "brier": 0.1308812555846589,
+    "false_positive_rate": 0.14914529914529914,
+    "false_negative_rate": 0.4095744680851064,
+    "confusion_matrix": [
+      [
+        3982,
+        698
+      ],
+      [
+        539,
+        777
+      ]
+    ]
+  },
+  "test": {
+    "accuracy": 0.7946964643095397,
+    "precision": 0.5292096219931272,
+    "recall": 0.5851063829787234,
+    "f1": 0.555756044749188,
+    "macro_f1": 0.7111282121587823,
+    "roc_auc": 0.7935737504221547,
+    "average_precision": 0.5795569321233748,
+    "balanced_accuracy": 0.719369430805601,
+    "brier": 0.13023717645886548,
+    "false_positive_rate": 0.14636752136752137,
+    "false_negative_rate": 0.4148936170212766,
+    "confusion_matrix": [
+      [
+        3995,
+        685
+      ],
+      [
+        546,
+        770
+      ]
+    ]
+  },
+  "paired_intervals_95": {
+    "accuracy_delta": [
+      -0.0036685009171252294,
+      0.005504610114701858
+    ],
+    "recall_delta": [
+      -0.017519820947612,
+      0.006172839506172839
+    ]
+  },
+  "confidence_intervals_95": {
+    "accuracy": [
+      0.7858134225082256,
+      0.8054321082256372
+    ],
+    "precision": [
+      0.5055255534152755,
+      0.5565400668742073
+    ],
+    "recall": [
+      0.561791074919344,
+      0.6110254360312217
+    ],
+    "f1": [
+      0.5352397995705083,
+      0.579597089509869
+    ],
+    "macro_f1": [
+      0.69899943319575,
+      0.7253545938494534
+    ],
+    "roc_auc": [
+      0.7806113122125613,
+      0.8073951490610752
+    ],
+    "average_precision": [
+      0.5513170099518369,
+      0.6093487456814991
+    ],
+    "balanced_accuracy": [
+      0.7063929489236755,
+      0.7337421877398205
+    ],
+    "brier": [
+      0.1250489723681914,
+      0.13540093715558374
+    ],
+    "false_positive_rate": [
+      0.1366787229967138,
+      0.155534539760025
+    ],
+    "false_negative_rate": [
+      0.3889745639687783,
+      0.438208925080656
+    ]
+  },
+  "promotion_eligible": false,
+  "uncertainty_method": "Fixed-prediction group bootstrap; excludes training/search uncertainty and benchmark reuse bias.",
+  "test_reuse_notice": "The baseline result was previously published. Candidate and threshold were frozen before this audit; this is not fresh external validation."
+}

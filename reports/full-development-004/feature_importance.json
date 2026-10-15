@@ -1,0 +1,286 @@
+[
+  {
+    "feature": "DELAY_RECENCY_WEIGHTED",
+    "training_gain": 37748.47808599472
+  },
+  {
+    "feature": "PAY_0",
+    "training_gain": 6032.729610443115
+  },
+  {
+    "feature": "RECENT_DELAY_MEAN",
+    "training_gain": 4867.050333023071
+  },
+  {
+    "feature": "STD_BILL_AMT",
+    "training_gain": 2645.135251522064
+  },
+  {
+    "feature": "DELAY_COUNT",
+    "training_gain": 2095.584589242935
+  },
+  {
+    "feature": "MAX_PAY_DELAY",
+    "training_gain": 1776.5504989624023
+  },
+  {
+    "feature": "BILL_LIMIT_1",
+    "training_gain": 1678.3575012683868
+  },
+  {
+    "feature": "AVG_PAY_AMT",
+    "training_gain": 1346.7904679775238
+  },
+  {
+    "feature": "LIMIT_BAL",
+    "training_gain": 1345.501076221466
+  },
+  {
+    "feature": "BILL_AMT1",
+    "training_gain": 1218.2204985618591
+  },
+  {
+    "feature": "AVG_BILL_AMT",
+    "training_gain": 1156.8406555652618
+  },
+  {
+    "feature": "PAY_AMT1",
+    "training_gain": 878.7206082344055
+  },
+  {
+    "feature": "DELAY_SEVERITY_SUM",
+    "training_gain": 859.7143721580505
+  },
+  {
+    "feature": "PAY_AMT3",
+    "training_gain": 859.2151436805725
+  },
+  {
+    "feature": "BILL_LIMIT_2",
+    "training_gain": 821.0218114852905
+  },
+  {
+    "feature": "PAY_AMT2",
+    "training_gain": 750.3725264072418
+  },
+  {
+    "feature": "ZERO_PAYMENT_COUNT",
+    "training_gain": 746.9927587509155
+  },
+  {
+    "feature": "BILL_TREND_LIMIT",
+    "training_gain": 728.732008934021
+  },
+  {
+    "feature": "PAYMENT_PRIOR_BILL_3",
+    "training_gain": 719.8678107261658
+  },
+  {
+    "feature": "RECENT_BILL_LIMIT",
+    "training_gain": 629.5761804580688
+  },
+  {
+    "feature": "BALANCE_FLOW_LIMIT_1",
+    "training_gain": 628.5383522510529
+  },
+  {
+    "feature": "BALANCE_FLOW_LIMIT_2",
+    "training_gain": 605.0930073261261
+  },
+  {
+    "feature": "PAYMENT_PRIOR_BILL_4",
+    "training_gain": 572.189165353775
+  },
+  {
+    "feature": "PAYMENT_VOLATILITY",
+    "training_gain": 561.1046876907349
+  },
+  {
+    "feature": "PAYMENT_PRIOR_BILL_5",
+    "training_gain": 481.8211097717285
+  },
+  {
+    "feature": "BALANCE_FLOW_LIMIT_3",
+    "training_gain": 476.967182636261
+  },
+  {
+    "feature": "PAY_AMT4",
+    "training_gain": 435.8087718486786
+  },
+  {
+    "feature": "EDUCATION",
+    "training_gain": 433.65508008003235
+  },
+  {
+    "feature": "PAYMENT_TREND_LIMIT",
+    "training_gain": 334.21291160583496
+  },
+  {
+    "feature": "PAYMENT_PRIOR_BILL_1",
+    "training_gain": 332.40137338638306
+  },
+  {
+    "feature": "BILL_VOLATILITY_LIMIT",
+    "training_gain": 325.3401222229004
+  },
+  {
+    "feature": "BILL_AMT2",
+    "training_gain": 325.0489122867584
+  },
+  {
+    "feature": "BILL_CHANGE",
+    "training_gain": 305.47873044013977
+  },
+  {
+    "feature": "PAYMENT_PRIOR_BILL_2",
+    "training_gain": 273.4555206298828
+  },
+  {
+    "feature": "BALANCE_FLOW_LIMIT_4",
+    "training_gain": 271.3056893348694
+  },
+  {
+    "feature": "MARRIAGE",
+    "training_gain": 258.59605145454407
+  },
+  {
+    "feature": "AGE",
+    "training_gain": 248.35803842544556
+  },
+  {
+    "feature": "BILL_AMT3",
+    "training_gain": 245.86670112609863
+  },
+  {
+    "feature": "UTILIZATION_RATIO",
+    "training_gain": 234.81655931472778
+  },
+  {
+    "feature": "PAYMENT_LIMIT_6",
+    "training_gain": 227.43244075775146
+  },
+  {
+    "feature": "PAY_AMT5",
+    "training_gain": 221.2796332836151
+  },
+  {
+    "feature": "STATUS_CODE_-1_COUNT",
+    "training_gain": 195.654461145401
+  },
+  {
+    "feature": "PAY_CONSISTENCY",
+    "training_gain": 179.21422958374023
+  },
+  {
+    "feature": "BILL_LIMIT_4",
+    "training_gain": 177.57767009735107
+  },
+  {
+    "feature": "PAYMENT_LIMIT_4",
+    "training_gain": 167.10960865020752
+  },
+  {
+    "feature": "PAYMENT_LIMIT_3",
+    "training_gain": 151.0353000164032
+  },
+  {
+    "feature": "SEX",
+    "training_gain": 141.33932065963745
+  },
+  {
+    "feature": "PAYMENT_LIMIT_5",
+    "training_gain": 123.00661945343018
+  },
+  {
+    "feature": "BILL_AMT5",
+    "training_gain": 119.84616017341614
+  },
+  {
+    "feature": "BALANCE_FLOW_LIMIT_5",
+    "training_gain": 117.9943585395813
+  },
+  {
+    "feature": "BILL_LIMIT_3",
+    "training_gain": 114.0658507347107
+  },
+  {
+    "feature": "PAY_AMT6",
+    "training_gain": 112.48772978782654
+  },
+  {
+    "feature": "PAYMENT_LIMIT_2",
+    "training_gain": 106.30856013298035
+  },
+  {
+    "feature": "STATUS_CODE_-2_COUNT",
+    "training_gain": 103.00525999069214
+  },
+  {
+    "feature": "OLDER_BILL_LIMIT",
+    "training_gain": 99.63102912902832
+  },
+  {
+    "feature": "PAYMENT_LIMIT_1",
+    "training_gain": 93.25304794311523
+  },
+  {
+    "feature": "BILL_LIMIT_5",
+    "training_gain": 86.6358995437622
+  },
+  {
+    "feature": "BILL_LIMIT_6",
+    "training_gain": 85.89838075637817
+  },
+  {
+    "feature": "STATUS_CODE_0_COUNT",
+    "training_gain": 85.48990106582642
+  },
+  {
+    "feature": "BILL_AMT4",
+    "training_gain": 72.5877194404602
+  },
+  {
+    "feature": "OLDER_DELAY_MEAN",
+    "training_gain": 65.2951397895813
+  },
+  {
+    "feature": "BILL_AMT6",
+    "training_gain": 58.818299293518066
+  },
+  {
+    "feature": "DELAY_TREND",
+    "training_gain": 57.60282039642334
+  },
+  {
+    "feature": "ZERO_PAYMENT_POSITIVE_BILL_COUNT",
+    "training_gain": 44.648630142211914
+  },
+  {
+    "feature": "CURRENT_DELAY_STREAK",
+    "training_gain": 39.628950357437134
+  },
+  {
+    "feature": "PAY_2",
+    "training_gain": 26.288949489593506
+  },
+  {
+    "feature": "PAY_6",
+    "training_gain": 19.959930419921875
+  },
+  {
+    "feature": "PAY_3",
+    "training_gain": 18.924799919128418
+  },
+  {
+    "feature": "DELAY_TWO_PLUS_COUNT",
+    "training_gain": 10.351929664611816
+  },
+  {
+    "feature": "PAY_5",
+    "training_gain": 9.780610084533691
+  },
+  {
+    "feature": "PAY_4",
+    "training_gain": 6.514359951019287
+  }
+]

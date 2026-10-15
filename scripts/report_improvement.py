@@ -145,6 +145,24 @@ Use a new directory for exact reproduction; never run repeated searches against 
             "--profile native --selection-recall-floor 0.60 --output artifacts/native-new --report reports/native-new",
         )
         text += "\nThis follow-up was designed after inspecting the earlier accuracy-recall-001 results. The higher inner recall target was fixed before this run. It does not undo adaptive development bias.\n\n[CatBoost native categorical features](https://catboost.ai/docs/en/features/categorical-features).\n"
+    if protocol.get("profile") == "behavior":
+        text = text.replace(
+            "artifacts/accuracy-recall-001/model.joblib",
+            "artifacts/behavior-003/model.joblib",
+        )
+        text = text.replace(
+            "Eight fixed candidate configurations: incumbent XGBoost, three regularized XGBoost variants, two histogram gradient boosters, unweighted random forest and Extra Trees. All retain the shared raw-input preprocessing pipeline.",
+            "Twelve fixed configurations: incumbent, two raw ordinal XGBoost controls, three XGBoost models with behavioral features, three LightGBM configurations, a histogram booster and two fixed soft-voting ensembles. Behavioral features describe historical payment coverage, limit-normalized balance flows, volatility, delay recency and consecutive delays. No IDs, target-derived features or population aggregates are used.",
+        )
+        text = text.replace(
+            "max(56%, baseline inner recall minus 3 percentage points)",
+            "max(58%, baseline inner recall minus 3 percentage points)",
+        )
+        text = text.replace(
+            "--output artifacts/accuracy-recall-new --report reports/accuracy-recall-new",
+            "--profile behavior --selection-recall-floor 0.58 --output artifacts/behavior-new --report reports/behavior-new",
+        )
+        text += "\nFeature chronology follows the [UCI variable definitions](https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients). Ratios to a preceding bill are historical proxies, not contractual repayment amounts. [LightGBM API](https://lightgbm.readthedocs.io/en/v4.6.0/pythonapi/lightgbm.LGBMClassifier.html).\n"
     (REPORT / "REPORT.md").write_text(text, encoding="utf-8")
     fig, ax = plt.subplots(figsize=(9, 6))
     for name, base, new, color in [

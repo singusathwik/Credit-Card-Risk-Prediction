@@ -1,0 +1,11 @@
+{
+  "api_probability_parity": true,
+  "shap_reconstruction": true,
+  "test_rows_excluded_from_development": true,
+  "groups_disjoint": true,
+  "frozen_model_sha256": "e5f1412be1061ef179f3fc8ce4a6afe7863ac381b6e90724bd31806503c911f7",
+  "frozen_sources_verified": true,
+  "serving_metadata_correction": "Development prevalence and dependency list only; weights and threshold unchanged.",
+  "example_probability": 0.054565251854891576,
+  "serving_sha256": "d7589edb09fa6ca7a8c1a4a6fcaa9c1312583620cda16888053361bbf7454aed"
+}

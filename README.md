@@ -63,7 +63,9 @@ Threshold 0.28; confusion matrix `[[3982, 698], [539, 777]]` (truth rows, predic
 [Evaluation](reports/run-001/EVALUATION.md) · [JSON results](reports/run-001/evaluation.json) · [Technical report](docs/TECHNICAL_REPORT.md).
 
 ## Further accuracy–recall research
-**Outcome:** neither follow-up met the replacement criteria. The original application model remains active; the additional experiments do not establish an accuracy improvement. Native categorical boosting with a stricter recall target achieved 77.91% accuracy / 60.43% recall in nested CV versus the incumbent's 78.74% / 58.57% on the same folds.
+The [behavioral-feature and full-development follow-up](reports/full-development-004/REPORT.md) produced a LightGBM candidate with **79.47% accuracy / 58.51% default recall**, versus the incumbent's **79.37% / 59.04%** on the same 5,996 records. The +0.10-point accuracy gain is small and its paired interval includes zero. This candidate uses new repayment-history features and 24,004 development records; its model/threshold were frozen before a single audit on the previously reported test benchmark. It did not meet the predefined +0.5-point adoption margin, so the default remains the incumbent. The trained candidate is available locally at `artifacts/full-development-004/serving.joblib`; model files are not published.
+
+**Earlier two follow-ups:** neither met the replacement criteria. Native categorical boosting with a stricter recall target achieved 77.91% accuracy / 60.43% recall in nested CV versus the incumbent's 78.74% / 58.57% on the same folds.
 
 The main dashboard now displays held-out accuracy and default recall directly. The evaluation page explains how many defaults are caught or missed, alongside uncertainty intervals and the full technical metrics.
 

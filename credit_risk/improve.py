@@ -276,6 +276,10 @@ def run(args):
         from .native import native_candidates
 
         models = {"incumbent_xgb": models["incumbent_xgb"], **native_candidates()}
+    if args.profile == "behavior":
+        from .behavior import behavior_candidates
+
+        models = behavior_candidates(models["incumbent_xgb"])
     selection_floor = max(args.recall_floor, args.selection_recall_floor)
     protocol = dict(
         seed=20261015,
@@ -293,8 +297,17 @@ def run(args):
         promotion="Nested and validation point estimates must pass guardrails; nested paired accuracy CI lower bound > 0.",
         threshold_grid="0.000 to 1.000 in increments of 0.005; maximize accuracy then recall.",
         candidate_parameters={
-            n: json.loads(json.dumps(model["model"].get_params()), parse_constant=str)
+            n: json.loads(
+                json.dumps(model.get_params(), default=str), parse_constant=str
+            )
             for n, model in models.items()
+        },
+        source_sha256={
+            name: hashlib.sha256(
+                Path(__file__).with_name(name).read_bytes()
+            ).hexdigest()
+            for name in ["improve.py", "features.py"]
+            + (["behavior.py"] if args.profile == "behavior" else [])
         },
         caveat="Nested CV on previously explored training data is exploratory, not a fresh external holdout.",
     )
@@ -402,7 +415,9 @@ def run(args):
         dict(
             schema_version=1,
             extra_packages=(
-                ["catboost"] if winner["algorithm"].startswith("catboost") else []
+                ["lightgbm"]
+                if args.profile == "behavior"
+                else ["catboost"] if winner["algorithm"].startswith("catboost") else []
             ),
             model=model,
             metadata=meta,
@@ -476,7 +491,9 @@ def main():
     p.add_argument("--report", default="reports/accuracy-recall-001")
     p.add_argument("--recall-floor", type=float, default=0.56)
     p.add_argument("--max-recall-drop", type=float, default=0.03)
-    p.add_argument("--profile", choices=["standard", "native"], default="standard")
+    p.add_argument(
+        "--profile", choices=["standard", "native", "behavior"], default="standard"
+    )
     p.add_argument("--selection-recall-floor", type=float, default=0.56)
     args = p.parse_args()
     if (
